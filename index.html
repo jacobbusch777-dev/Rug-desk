@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rug Desk</title><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#FFFFFF">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rug Desk">
+<meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#FFF;--p:#F9FAFB;--t:#111827;--l:#6B7280;--ln:#E5E7EB;--g:#22C55E;--r:#EF4444;--m:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--t);font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+.wrap{max-width:440px;margin:0 auto;padding-bottom:env(safe-area-inset-bottom)}
+.mono{font-family:var(--m)}.lab{font-size:11px;color:var(--l);font-weight:600;letter-spacing:.6px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--ln);padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pill{border-radius:999px;padding:3px 9px;font-size:11px;font-weight:700;letter-spacing:.3px}
+.box{background:var(--p);border:1px solid var(--ln);border-radius:16px;padding:14px;margin-bottom:12px}
+.row{display:flex;justify-content:space-between;gap:8px}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.stats .box{flex:1 1 70px;padding:10px;margin:0}
+.big{font-family:var(--m);font-weight:800;font-size:20px}
+.ag{display:flex;gap:10px;align-items:center;padding:8px 6px;border-radius:10px;position:relative}
+.ag .fl{position:absolute;inset:0;border-radius:10px;opacity:0;transition:opacity .6s;pointer-events:none}
+.ag.on .fl{opacity:.1}.dot{width:28px;height:28px;border-radius:14px;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.act{font-size:12px;color:var(--l);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ven{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.ven span{border:1px solid var(--ln);border-radius:999px;padding:4px 10px;font-size:12px;display:flex;gap:6px;align-items:center}
+.toastw{position:fixed;top:64px;left:0;right:0;z-index:9;display:flex;justify-content:center;pointer-events:none;opacity:0;transform:translateY(-120%);transition:transform .35s,opacity .35s}
+.toastw.show{opacity:1;transform:none}.toast{width:calc(100% - 24px);max-width:416px;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.15);padding:12px}
+.ov{position:fixed;inset:0;background:rgba(17,24,39,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;overscroll-behavior:contain}
+.ov.open{opacity:1;pointer-events:auto}.sheet{background:#fff;width:100%;max-width:440px;border-radius:20px 20px 0 0;padding:18px;max-height:90vh;overflow-y:auto;overscroll-behavior:contain;transform:translateY(100%);transition:transform .35s}
+.ov.open .sheet{transform:none}.grid{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.grid div{flex:1 1 40%;background:var(--p);border-radius:12px;padding:10px}
+.fp{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.fp span{background:var(--p);border:1px solid var(--ln);border-radius:999px;padding:4px 10px;font-size:11px;font-family:var(--m)}
+button{font:inherit}.btn{width:100%;padding:12px;border-radius:12px;border:none;background:#111827;color:#fff;font-weight:700;font-size:14px;margin-bottom:12px}
+.btn2{background:#fff;color:var(--t);border:1px solid var(--ln)}.stale{background:#FEF3C7;color:#92400E;border-radius:12px;padding:8px 12px;font-size:12px;margin-bottom:12px;display:none}
+.bar-t{height:4px;background:var(--ln);border-radius:2px}.bar-t div{height:4px;background:var(--r);border-radius:2px}
+.ptr{text-align:center;font-size:12px;color:var(--l);height:0;overflow:hidden;transition:height .2s}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+</style></head><body><div class="wrap">
+<div class="bar"><b style="font-size:13px">GROK BOT • <span class="mono" id="c1">--:--</span></b>
+<span class="pill" style="background:#111827;color:#fff">NIGHT DESK</span><span class="pill" style="background:#E5E7EB">6 AGENTS</span>
+<span style="font-size:11px;font-weight:700">PAPER → <span style="color:var(--g)">LIVE</span></span>
+<span style="margin-left:auto;display:flex;gap:6px;align-items:center"><span class="pill" style="background:#FEF3C7;color:#92400E">PAPER</span><span class="mono" style="font-size:12px;color:var(--l)" id="c2"></span></span></div>
+<div class="ptr" id="ptr">release to refresh</div>
+<div class="toastw" id="tw"><div class="toast"><div class="lab" style="font-size:10px">GROK BOT • <span class="mono" id="tt"></span></div><b id="th" style="font-size:14px"></b><div id="ts" style="color:var(--l);font-size:12px"></div></div></div>
+<div style="padding:12px">
+<div class="stale" id="stale"></div>
+<div class="box"><div class="row" style="flex-wrap:wrap"><div><div class="lab" id="blab"></div><div class="mono" style="font-size:34px;font-weight:800" id="bal">—</div><div class="mono" style="font-weight:700;font-size:13px" id="pnl"></div></div>
+<div style="text-align:right"><div class="mono" style="font-size:28px;font-weight:800" id="mul"></div><div class="mono" style="font-size:12px;color:var(--l)" id="wl"></div></div></div>
+<div style="margin-top:10px" id="sp1"></div><div id="status" style="font-style:italic;color:var(--l);font-size:12px;margin-top:4px;min-height:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div></div>
+<div class="stats"><div class="box"><div class="lab">SCANNED</div><div class="big" id="s1"></div></div><div class="box"><div class="lab">PASSED</div><div class="big" id="s2"></div></div><div class="box"><div class="lab">TRADES</div><div class="big" id="s3"></div></div><div class="box"><div class="lab">W / L</div><div class="big"><span style="color:var(--g)" id="s4"></span> / <span style="color:var(--r)" id="s5"></span></div></div></div>
+<div class="ven" id="ven"></div>
+<div class="box"><div class="row" style="margin-bottom:6px"><b>Desk • 6 agents</b><span style="color:var(--l);font-size:12px">hard handoffs</span></div><div id="agents"></div></div>
+<div class="box"><div class="row"><b>Trades</b><span class="mono" style="font-size:12px;color:var(--l)" id="th2"></span></div><div id="trades"></div></div>
+<div class="box"><b>Kill reasons</b> <span style="color:var(--l);font-size:12px">lifetime</span><div id="tally" style="margin-top:6px"></div></div>
+<div class="box" style="font-size:12px;color:var(--l)" id="rules"></div>
+<button class="btn btn2" id="rf">Refresh</button><button class="btn" id="rb">Morning recap</button>
+<div style="font-size:11px;color:var(--l);text-align:center;margin-bottom:20px">Read-only paper terminal. No wallet, no trading.</div>
+</div></div>
+<div class="ov" id="ov"><div class="sheet" id="sh"><div style="font-weight:800;font-size:20px">Morning recap</div><div class="mono" style="color:var(--l);font-size:12px" id="r1"></div><div id="r2" style="margin:8px 0"></div>
+<div class="mono" style="font-weight:800;font-size:22px" id="r3"></div><div class="grid" id="r4"></div><div id="sp2"></div><div class="fp" id="r5"></div><button class="btn btn2" style="margin-top:14px" id="rc">Close</button></div></div>
+<script>
+const $=id=>document.getElementById(id),AG={Scout:["#3B82F6","S"],Filter:["#EF4444","F"],Analyst:["#8B5CF6","A"],Executor:["#22C55E","E"],Risk:["#F97316","R"],Logger:["#4B5563","L"]},
+VEN=[["pump.fun","#22C55E"],["bonk.fun","#F97316"],["Raydium","#3B82F6"],["Meteora","#EC4899"]];
+const money=n=>(n<0?"-$":"$")+Math.abs(n).toFixed(2),esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let D=null,timer=null,touched=false,autoShown=false;
+function spark(pts,h,id){if(!pts.length)return"";const w=340,lo=Math.min(...pts)-1,hi=Math.max(...pts)+1,xy=pts.map((v,i)=>[pts.length==1?w:i/(pts.length-1)*w,h-4-(v-lo)/(hi-lo)*(h-8)]);
+const d=xy.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" "),c=pts.at(-1)>=pts[0]?"#22C55E":"#EF4444";
+return`<svg width="100%" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="display:block"><defs><linearGradient id="${id}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${c}" stop-opacity=".3"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></linearGradient></defs><path d="${d} L ${w} ${h} L 0 ${h} Z" fill="url(#${id})"/><path d="${d}" fill="none" stroke="${c}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`}
+// agent rows built once; replay updates only text nodes + one class
+$("agents").innerHTML=Object.entries(AG).map(([a,[c,l]])=>`<div class="ag" id="ag-${a}"><div class="fl" style="background:${c}"></div><span class="dot" style="background:${c}">${l}</span><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:13px">${a}</div><div class="act"><span class="mono sym" style="color:var(--t);font-weight:700"></span><span class="txt"></span></div></div><span class="mono st" style="font-size:11px;color:var(--l);flex:none"></span></div>`).join("");
+function hm(ts){return ts?String(ts).slice(11,16):"--:--"}
+function render(){const d=D,R=d.rules,pnl=d.equity-d.start,pct=pnl/d.start*100;
+$("c1").textContent=hm(d.generated);$("c2").textContent="updated "+hm(d.generated)+" CT";
+$("blab").textContent=`Balance • start $${d.start} • max ${Math.round(R.max_trade_pct*100)}% per trade • ${d.mode}`;
+$("bal").textContent=money(d.equity);$("pnl").textContent=`${pnl>=0?"+":"-"}${money(Math.abs(pnl))} (${pct>=0?"+":""}${pct.toFixed(2)}%)`;$("pnl").style.color=pnl>=0?"var(--g)":"var(--r)";
+$("mul").textContent=(d.equity/d.start).toFixed(2)+"x";$("wl").textContent=`${d.w}W / ${d.l}L - worst ${money(d.worst)}`;
+const eq=d.eq.map(e=>e[1]);$("sp1").innerHTML=spark(eq.length>1?eq:[d.equity,d.equity],70,"g1");
+$("s1").textContent=d.scanned;$("s2").textContent=d.passed;$("s3").textContent=d.traded;$("s4").textContent=d.w;$("s5").textContent=d.l;
+$("ven").innerHTML=VEN.map(([v,c])=>`<span><span style="width:8px;height:8px;border-radius:4px;background:${c}"></span>${v}<span class="mono" style="color:var(--l)">${d.venues[v]??0}</span>${d.health[v]==="down"?'<span style="color:var(--r)">down</span>':""}</span>`).join("");
+const fk=d.tally.filter(t=>!t[0].startsWith("grok")).reduce((a,t)=>a+t[1],0);
+const ST={Scout:`${d.scanned} pairs`,Filter:`${(fk/Math.max(d.scanned,1)*100).toFixed(1)}% killed`,Analyst:`score ≥ ${R.min_score}`,Executor:`size ≈ ${Math.round(R.max_trade_pct*100)}%`,Risk:`stop ${R.stop_pct}%`,Logger:`${d.scanned} logged`};
+for(const a in AG)$("ag-"+a).querySelector(".st").textContent=ST[a];
+$("th2").textContent=`${d.traded} traded • ${d.scanned} scanned`;
+const tr=d.trades.filter(t=>t[2]!=="open").slice().reverse();
+$("trades").innerHTML=tr.length?tr.map(t=>`<div class="row" style="padding:6px 0;border-top:1px solid var(--ln)"><span class="mono" style="font-weight:800">${esc(t[1])}</span><span class="mono" style="color:${t[3]>=0?"var(--g)":"var(--r)"}">${t[3]>=0?"+":""}${money(t[3])}</span></div>`).join(""):`<div style="font-size:12px;color:var(--l);margin-top:6px">0 paper trades — nothing has made it past all 6 agents yet.</div>`;
+const vm=Math.max(1,...d.tally.map(t=>t[1]));$("tally").innerHTML=d.tally.map(([r,n])=>`<div style="margin-bottom:5px"><div class="row" style="font-size:12px"><span style="color:var(--r)">${esc(r)}</span><span class="mono">${n}</span></div><div class="bar-t"><div style="width:${n/vm*100}%"></div></div></div>`).join("");
+$("rules").innerHTML=`PAPER only — no wallet, no signing, no transactions. Active rules: <span class="mono">score ≥ ${R.min_score} · conf ≥ 0.7 · stop ${R.stop_pct}% · trail after +${R.trail_start_pct}% · max ${Math.round(R.max_trade_pct*100)}%/trade</span>. Data as of <span class="mono">${esc(d.generated)}</span> CT.`;
+const age=(Date.now()-new Date(d.generated.replace(" ","T")+"-05:00"))/60000;$("stale").style.display=age>25?"block":"none";$("stale").textContent=`Stale: data is ${Math.round(age)} min old (last update ${hm(d.generated)} CT). The desk may be paused.`;
+// recap
+const st=d.session_start?(new Date(d.generated.replace(" ","T"))-new Date(d.session_start.replace(" ","T")))/60000:0;
+$("r1").textContent=`${hm(d.generated)} CT • ran ${Math.floor(st/60)}h ${Math.round(st%60)}m`;
+$("r2").innerHTML=d.equity>=d.start?'<span class="pill" style="background:#DCFCE7;color:#166534">STACK INTACT</span>':"";
+$("r3").textContent=`$${d.start} → ${money(d.equity)}`;
+$("r4").innerHTML=[["PAIRS SCANNED",d.scanned,""],["MADE IT THROUGH",d.passed,""],["TRADES",d.traded,""],["GREEN / RED",`${d.w} / ${d.l}`,""],["BIGGEST HIT",money(d.best),"var(--g)"],["WORST LOSS",money(d.worst),"var(--r)"]].map(s=>`<div><div class="lab">${s[0]}</div><div class="big" style="font-size:18px;color:${s[2]||"var(--t)"}">${s[1]}</div></div>`).join("");
+$("sp2").innerHTML=spark(eq.length>1?eq:[d.equity,d.equity],60,"g2");
+$("r5").innerHTML=[`stop ${R.stop_pct}% • ${d.traded}/${d.traded} held`,`trail after +${R.trail_start_pct}%`,`max ${Math.round(R.max_trade_pct*100)}% per trade`,"every move logged"].map(p=>`<span>${p}</span>`).join("");
+replay()}
+function toast(t,h,s){$("tt").textContent=t;$("th").textContent=h;$("ts").textContent=s;$("tw").classList.add("show");clearTimeout(toast.k);toast.k=setTimeout(()=>$("tw").classList.remove("show"),2600)}
+function replay(){clearInterval(timer);let k=0,last=null;const ev=D.ev;
+timer=setInterval(()=>{if(last)last.classList.remove("on");
+if(k>=ev.length){clearInterval(timer);$("status").textContent="cycle done · all kills logged";if(!touched&&!autoShown){autoShown=true;openRecap(true)}return}
+const [ts,a,kind,sym,ven,why]=ev[k++],row=$("ag-"+a);if(!row)return;
+const verb=kind==="kill"?"killed · ":kind==="pass"?"passed · ":kind==="lead"?"lead on ":"",txt=kind==="lead"?ven:why;
+row.querySelector(".sym").textContent=sym?sym+" ":"";const t=row.querySelector(".txt");t.textContent=verb+txt;t.style.color=kind==="kill"||kind==="exit"?"var(--r)":kind==="pass"||kind==="pass_final"?"var(--g)":"var(--l)";
+row.classList.add("on");last=row;$("c1").textContent=hm(ts);$("status").textContent=`${a}: ${sym} ${kind==="lead"?"new pair on "+ven:why}`;
+if(kind==="pass")toast(hm(ts),`${sym} cleared ${a}`,ven);if(a==="Analyst"&&kind==="kill")toast(hm(ts),`${sym} killed by Analyst`,why.slice(0,60));if(kind==="pass_final")toast(hm(ts),`PAPER BUY ${sym}`,ven)},900)}
+function openRecap(){$("ov").classList.add("open");document.body.style.overflow="hidden";
+if(D.equity>D.start)for(let k=0;k<30;k++){const s=document.createElement("span");s.style.cssText=`position:fixed;top:-10px;left:${k*37%100}%;width:7px;height:10px;pointer-events:none;z-index:21;background:${["#22C55E","#3B82F6","#F97316","#8B5CF6"][k%4]};animation:fall ${2+k%5*.4}s linear forwards`;document.body.appendChild(s);setTimeout(()=>s.remove(),4500)}}
+function closeRecap(){$("ov").classList.remove("open");document.body.style.overflow=""}
+$("rb").onclick=openRecap;$("rc").onclick=closeRecap;$("ov").onclick=e=>{if(e.target.id==="ov")closeRecap()};
+async function load(){try{const r=await fetch("desk_state.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const d=await r.json();const changed=!D||d.generated!==D.generated;D=d;if(changed)render();else{$("c2").textContent="updated "+hm(d.generated)+" CT"}}catch(e){$("stale").style.display="block";$("stale").textContent="Could not load desk_state.json — showing last copy if any."}}
+$("rf").onclick=load;
+// pull-to-refresh (passive listeners only; never blocks native scrolling)
+let y0=null;addEventListener("touchstart",e=>{touched=true;y0=scrollY<=0?e.touches[0].clientY:null},{passive:true});
+addEventListener("touchmove",e=>{if(y0==null)return;const dy=e.touches[0].clientY-y0;$("ptr").style.height=dy>60?"24px":"0"},{passive:true});
+addEventListener("touchend",()=>{if($("ptr").style.height==="24px")load();$("ptr").style.height="0";y0=null},{passive:true});
+addEventListener("scroll",()=>{touched=true},{passive:true});
+setInterval(()=>{if(!document.hidden)load()},60000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)load()});
+if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js");
+load();
+</script></body></html>
