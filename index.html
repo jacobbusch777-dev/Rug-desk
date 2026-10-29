@@ -31,7 +31,15 @@ button{font:inherit}.btn{width:100%;padding:12px;border-radius:12px;border:none;
 .bar-t{height:4px;background:var(--ln);border-radius:2px}.bar-t div{height:4px;background:var(--r);border-radius:2px}
 .ptr{text-align:center;font-size:12px;color:var(--l);height:0;overflow:hidden;transition:height .2s}
 @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
-</style></head><body><div class="wrap">
+html,body{height:100%;overflow:hidden}
+.pager{display:flex;height:100vh;height:100dvh;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
+.pager::-webkit-scrollbar{display:none}
+.pane{flex:0 0 100%;width:100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
+.dots{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:8px;z-index:8;pointer-events:none}
+.dots button{pointer-events:auto;width:8px;height:8px;border-radius:4px;border:none;padding:0;background:#D1D5DB;transition:width .2s,background .2s}
+.dots button.on{width:22px;background:#111827}
+.tk{font-family:var(--m);font-weight:700}
+</style></head><body><div class="pager" id="pager"><section class="pane" id="p1"><div class="wrap">
 <div class="bar"><b style="font-size:13px">GROK BOT • <span class="mono" id="c1">--:--</span></b>
 <span class="pill" style="background:#111827;color:#fff">NIGHT DESK</span><span class="pill" style="background:#E5E7EB">6 AGENTS</span>
 <span style="font-size:11px;font-weight:700">PAPER → <span style="color:var(--g)">LIVE</span></span>
@@ -53,7 +61,28 @@ button{font:inherit}.btn{width:100%;padding:12px;border-radius:12px;border:none;
 <div style="font-size:11px;color:var(--l);text-align:center;margin-bottom:20px">Read-only paper terminal. No wallet, no trading.</div>
 </div></div>
 <div class="ov" id="ov"><div class="sheet" id="sh"><div style="font-weight:800;font-size:20px">Morning recap</div><div class="mono" style="color:var(--l);font-size:12px" id="r1"></div><div id="r2" style="margin:8px 0"></div>
-<div class="mono" style="font-weight:800;font-size:22px" id="r3"></div><div class="grid" id="r4"></div><div id="sp2"></div><div class="fp" id="r5"></div><button class="btn btn2" style="margin-top:14px" id="rc">Close</button></div></div>
+<div class="mono" style="font-weight:800;font-size:22px" id="r3"></div><div class="grid" id="r4"></div><div id="sp2"></div><div class="fp" id="r5"></div><button class="btn btn2" style="margin-top:14px" id="rc">Close</button></div></div></section>
+<section class="pane" id="p2"><div class="wrap">
+<div class="bar"><b style="font-size:13px">OPTIONS DESK • <span class="mono" id="oc1">--:--</span></b>
+<span style="margin-left:auto;display:flex;gap:6px;align-items:center"><span class="pill" style="background:#FEF3C7;color:#92400E">PAPER</span><span class="mono" style="font-size:12px;color:var(--l)" id="oc2"></span></span></div>
+<div style="padding:12px 12px 40px">
+<div class="stale" id="ostale"></div>
+<div class="box"><div class="row" style="flex-wrap:wrap"><div><div class="lab" id="oblab">PAPER OPTIONS BANK</div><div class="mono" style="font-size:34px;font-weight:800" id="obal">—</div><div class="mono" style="font-weight:700;font-size:13px" id="opnl"></div></div>
+<div style="text-align:right"><div class="mono" style="font-size:28px;font-weight:800" id="omul"></div><div class="mono" style="font-size:12px;color:var(--l)" id="owl"></div></div></div>
+<div style="margin-top:10px" id="osp"></div><div id="ostatus" style="font-style:italic;color:var(--l);font-size:12px;margin-top:4px;min-height:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div></div>
+<div class="stats"><div class="box"><div class="lab">CHECKED</div><div class="big" id="os1"></div></div><div class="box"><div class="lab">PASSED</div><div class="big" id="os2"></div></div><div class="box"><div class="lab">TRADES</div><div class="big" id="os3"></div></div><div class="box"><div class="lab">W / L</div><div class="big"><span style="color:var(--g)" id="os4"></span> / <span style="color:var(--r)" id="os5"></span></div></div></div>
+<div class="ven" id="otk"></div>
+<div class="box"><div class="row" style="margin-bottom:6px"><b>Desk • 6 agents</b><span style="color:var(--l);font-size:12px">hard handoffs</span></div><div id="oagents"></div></div>
+<div class="box"><div class="row"><b>Open positions</b><span class="mono" style="font-size:12px;color:var(--l)" id="oopn"></span></div><div id="oopen"></div></div>
+<div class="box"><div class="row"><b>Trades</b><span class="mono" style="font-size:12px;color:var(--l)" id="oth"></span></div><div id="otrades"></div></div>
+<div class="box"><b>Kill reasons</b> <span style="color:var(--l);font-size:12px">lifetime, per ticker</span><div id="otally" style="margin-top:6px"></div>
+<div style="margin-top:10px" class="lab">CONTRACT-LEVEL FILTER KILLS</div><div id="octally" style="margin-top:6px"></div></div>
+<div class="box"><b>Recap</b><div id="orecap" style="font-size:13px;margin-top:6px"></div></div>
+<div class="box" style="font-size:12px;color:var(--l)" id="orules"></div>
+<button class="btn btn2" id="orf">Refresh</button>
+<div style="font-size:11px;color:var(--l);text-align:center;margin-bottom:20px">Read-only paper terminal. Simulated fills on a local ledger. No brokerage.</div>
+</div></div></section>
+</div><div class="dots" id="dots"><button class="on" aria-label="Rug Desk"></button><button aria-label="Options Desk"></button></div>
 <script>
 const $=id=>document.getElementById(id),AG={Scout:["#3B82F6","S"],Filter:["#EF4444","F"],Analyst:["#8B5CF6","A"],Executor:["#22C55E","E"],Risk:["#F97316","R"],Logger:["#4B5563","L"]},
 VEN=[["pump.fun","#22C55E"],["bonk.fun","#F97316"],["Raydium","#3B82F6"],["Meteora","#EC4899"]];
@@ -107,11 +136,39 @@ $("rb").onclick=openRecap;$("rc").onclick=closeRecap;$("ov").onclick=e=>{if(e.ta
 async function load(){try{const r=await fetch("desk_state.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const d=await r.json();const changed=!D||d.generated!==D.generated;D=d;if(changed)render();else{$("c2").textContent="updated "+hm(d.generated)+" CT"}}catch(e){$("stale").style.display="block";$("stale").textContent="Could not load desk_state.json — showing last copy if any."}}
 $("rf").onclick=load;
 // pull-to-refresh (passive listeners only; never blocks native scrolling)
-let y0=null;addEventListener("touchstart",e=>{touched=true;y0=scrollY<=0?e.touches[0].clientY:null},{passive:true});
+let y0=null;addEventListener("touchstart",e=>{touched=true;y0=$("p1").scrollTop<=0&&pagerIdx()==0?e.touches[0].clientY:null},{passive:true});
 addEventListener("touchmove",e=>{if(y0==null)return;const dy=e.touches[0].clientY-y0;$("ptr").style.height=dy>60?"24px":"0"},{passive:true});
 addEventListener("touchend",()=>{if($("ptr").style.height==="24px")load();$("ptr").style.height="0";y0=null},{passive:true});
-addEventListener("scroll",()=>{touched=true},{passive:true});
+addEventListener("scroll",()=>{touched=true},{passive:true,capture:true});
 setInterval(()=>{if(!document.hidden)load()},60000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)load()});
 if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js");
 load();
-</script></body></html>
+</script>
+<script>
+// ---- pager: native scroll-snap only; no touch handlers, so vertical scrolling inside each pane is untouched ----
+const PG=document.getElementById("pager");function pagerIdx(){return Math.round(PG.scrollLeft/Math.max(1,PG.clientWidth))}
+const DOTS=[...document.querySelectorAll("#dots button")];DOTS.forEach((b,i)=>b.onclick=()=>PG.scrollTo({left:i*PG.clientWidth,behavior:"smooth"}));
+PG.addEventListener("scroll",()=>{const i=pagerIdx();DOTS.forEach((b,k)=>b.classList.toggle("on",k==i));if(i==1&&!O)oload()},{passive:true});
+// ---- options screen ----
+let O=null;const OAG=Object.keys(AG);
+$("oagents").innerHTML=OAG.map(a=>{const[c,l]=AG[a];return`<div class="ag"><span class="dot" style="background:${c}">${l}</span><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:13px">${a}</div><div class="act" id="oa-${a}"></div></div><span class="mono" style="font-size:11px;color:var(--l);flex:none" id="ot-${a}"></span></div>`}).join("");
+function orender(){const d=O,R=d.rules,pnl=d.equity-d.start,pct=pnl/d.start*100;
+$("oc1").textContent=hm(d.generated);$("oc2").textContent="updated "+hm(d.generated)+" CT";
+$("obal").textContent=money(d.equity);$("opnl").textContent=(pnl>=0?"+":"")+money(pnl)+" ("+pct.toFixed(1)+"%) since start";$("opnl").style.color=pnl>=0?"var(--g)":"var(--r)";
+$("omul").textContent=(d.equity/d.start).toFixed(2)+"×";$("owl").textContent="start "+money(d.start);
+const pts=d.eq.map(x=>x[1]);$("osp").innerHTML=pts.length>1?spark(pts,70,"og"):'<div style="color:var(--l);font-size:12px">equity chart fills in as watch.py marks the book</div>';
+const last=d.ev[d.ev.length-1];$("ostatus").textContent=last?`${last[1]}: ${last[3]} ${last[5]}`:"";
+$("os1").textContent=d.scanned;$("os2").textContent=d.passed;$("os3").textContent=d.traded;$("os4").textContent=d.w;$("os5").textContent=d.l;
+const h=d.health||{};$("otk").innerHTML=Object.entries(d.tickers).map(([t,n])=>`<span><b class="tk">${esc(t)}</b><span class="mono" style="color:var(--l)">${n}</span></span>`).join("")+Object.entries(h).map(([k,v])=>`<span style="color:${v=="up"?"var(--g)":"var(--r)"}">● ${esc(k)} ${esc(v)}</span>`).join("");
+OAG.forEach(a=>{const e=[...d.ev].reverse().find(x=>x[1]==a);$("oa-"+a).innerHTML=e?`<b class="mono" style="color:var(--t)">${esc(e[3])}</b> ${esc(e[5])}`:"idle";$("ot-"+a).textContent=e?hm(e[0]):""});
+$("oopn").textContent=d.open.length+" / "+R.max_open;$("oopen").innerHTML=d.open.length?d.open.map(p=>`<div class="row mono" style="font-size:12px;padding:6px 0;border-top:1px solid var(--ln)"><span><b>${esc(p[0])}</b> ${esc(p[1])}</span><span>${p[2]}× ${(+p[3]).toFixed(2)} → ${p[4]==null?"—":(+p[4]).toFixed(2)}</span></div>`).join(""):'<div style="color:var(--l);font-size:12px;margin-top:6px">none</div>';
+$("oth").textContent=d.trades.length;$("otrades").innerHTML=d.trades.length?d.trades.slice().reverse().map(t=>`<div class="row mono" style="font-size:12px;padding:6px 0;border-top:1px solid var(--ln)"><span>${hm(t[0])} <b>${esc(t[1])}</b> ${esc(t[2])}</span><span style="color:${t[3]>0?"var(--g)":t[3]<0?"var(--r)":"var(--l)"}">${t[2]=="open"?esc(t[4]):money(t[3])}</span></div>`).join(""):'<div style="color:var(--l);font-size:12px;margin-top:6px">no paper trades yet</div>';
+const bars=(L,id)=>{const mx=Math.max(1,...L.map(x=>x[1]));$(id).innerHTML=L.length?L.map(([k,n])=>`<div style="margin:6px 0"><div class="row" style="font-size:12px"><span class="mono">${esc(k)}</span><b class="mono">${n}</b></div><div class="bar-t"><div style="width:${n/mx*100}%"></div></div></div>`).join(""):'<div style="color:var(--l);font-size:12px">none yet</div>'};
+bars(d.tally,"otally");bars(d.contract_tally,"octally");
+const kills=d.ev.filter(e=>e[2]=="kill");$("orecap").innerHTML=`<div class="mono" style="font-weight:800;font-size:18px">${(pnl>=0?"+":"")+money(pnl)}</div><div style="color:var(--l);margin:4px 0">${d.passed} passed of ${d.scanned} tickers checked · ${d.contracts_scanned||0} contracts screened · best ${money(d.best)} · worst ${money(d.worst)}</div>`+kills.slice(-6).reverse().map(e=>`<div class="mono" style="font-size:11px;padding:3px 0"><b>${esc(e[3])}</b> ${esc(e[1])}: ${esc(e[5])}</div>`).join("");
+$("orules").innerHTML=`<b style="color:var(--t)">Rules</b> · stop ${R.stop_pct}% · take half +${R.take_half_pct}% · trail ${R.trail_pct}% after +${R.trail_start_pct}% · close at ${R.close_at_dte} DTE · max ${R.max_open} open · ${R.max_trade_pct*100}% equity per trade · score ≥ ${R.min_score}`}
+async function oload(){try{const r=await fetch("options_state.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const d=await r.json();const ch=!O||d.generated!==O.generated;O=d;$("ostale").style.display="none";if(ch)orender()}catch(e){$("ostale").style.display="block";$("ostale").textContent="Could not load options_state.json."}}
+if(location.hash=="#options")requestAnimationFrame(()=>PG.scrollLeft=PG.clientWidth);
+$("orf").onclick=oload;oload();setInterval(()=>{if(!document.hidden)oload()},60000);
+</script>
+</body></html>
