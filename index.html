@@ -83,10 +83,10 @@ html,body{height:100%;overflow:hidden}
 <div style="font-size:11px;color:var(--l);text-align:center;margin-bottom:20px">Read-only paper terminal. Simulated fills on a local ledger. No brokerage.</div>
 </div></div></section>
 </div><div class="dots" id="dots"><button class="on" aria-label="Rug Desk"></button><button aria-label="Options Desk"></button></div>
-<script>const GH0="jacobbusch777-dev/Rug-desk";async function gget(f){const t=Date.now(),tries=[
- ()=>fetch(`https://raw.githubusercontent.com/${GH0}/main/${f}?t=${t}`,{cache:"no-store"}),
- ()=>fetch(`https://api.github.com/repos/${GH0}/contents/${f}`,{cache:"no-store",headers:{Accept:"application/vnd.github.raw"}}),
- ()=>fetch(`${f}?t=${t}`,{cache:"no-store"})];
+<script>const GH0="jacobbusch777-dev/Rug-desk";let APIok=0;async function api(f){if(Date.now()<APIok)throw 0;const r=await fetch(`https://api.github.com/repos/${GH0}/contents/${f}`,{cache:"no-store",headers:{Accept:"application/vnd.github.raw"}});
+ const rem=+r.headers.get("x-ratelimit-remaining");if(r.status==403||r.status==429||(r.headers.has("x-ratelimit-remaining")&&rem<8))APIok=(+r.headers.get("x-ratelimit-reset")*1000)||Date.now()+900000;if(!r.ok)throw 0;return r}
+async function gget(f){const t=Date.now(),tries=[()=>fetch(`${f}?t=${t}`,{cache:"no-store"}),()=>api(f),
+ ()=>fetch(`https://raw.githubusercontent.com/${GH0}/main/${f}?t=${t}`,{cache:"no-store"})];
  for(const g of tries){try{const r=await g();if(r.ok)return r}catch(e){}}throw 0}
 
 const $=id=>document.getElementById(id),AG={Scout:["#3B82F6","S"],Filter:["#EF4444","F"],Analyst:["#8B5CF6","A"],Executor:["#22C55E","E"],Risk:["#F97316","R"],Logger:["#4B5563","L"]},
@@ -189,7 +189,9 @@ function lcard(rows){if(!rows.length)return"";return rows.map(r=>{const up=(r.pn
  <div style="text-align:right"><div class="mono" style="font-size:24px;font-weight:800;color:${c}">${r.pnl_usd==null?"—":(up?"+":"−")+"$"+Math.abs(r.pnl_usd).toFixed(2)}</div><div class="mono" style="font-weight:700;color:${c}">${r.pnl_pct==null?"":(r.pnl_pct>=0?"+":"")+r.pnl_pct.toFixed(1)+"%"}</div></div></div>
  <div class="mono" style="font-size:12px;margin-top:6px">stop ${f$(r.stop,d)} • <b style="color:${(r.stop_dist_pct??99)<15?"var(--r)":"var(--t)"}">${r.stop_dist_pct==null?"—":r.stop_dist_pct.toFixed(1)+"% above"}</b>${r.desk=="options"?` • ${r.sym} ${r.underlying==null?"not recorded":"$"+r.underlying.toFixed(2)} <span style="color:var(--l)">(entry ${r.underlying_entry==null?"not recorded":"$"+r.underlying_entry.toFixed(2)})</span>`:""}</div></div>`}).join("")}
 function lrender(){const P=(LV&&LV.positions)||[];$("lv1").innerHTML=lcard(P.filter(r=>r.desk=="crypto"));$("lv2").innerHTML=lcard(P.filter(r=>r.desk=="options"))}
-async function lload(){try{const r=await gget("live.json");LV=await r.json();lrender()}catch(e){}}
+let LVapi=0;async function lload(){const got=[];try{got.push(await (await gget("live.json")).json())}catch(e){}
+ if(LV&&LV.positions&&LV.positions.length&&Date.now()-LVapi>90000){LVapi=Date.now();try{got.push(await (await api("live.json")).json())}catch(e){}}
+ for(const d of got)if(!LV||d.generated>=LV.generated)LV=d;if(got.length)lrender()}
 function ltick(){if(!document.hidden)lload();setTimeout(ltick,(LV&&LV.positions&&LV.positions.length)?20000:60000)}
 ltick();setInterval(()=>{if(!document.hidden&&LV)lrender()},1000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)lload()});
 </script></body></html>
