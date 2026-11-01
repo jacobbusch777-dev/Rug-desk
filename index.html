@@ -239,9 +239,11 @@ function krender(){const t=T();if(!t){$k("kxdir").textContent="no Kronos data fo
  $k("kxup").textContent="▲ "+up.toFixed(0)+"% up";$k("kxdn").textContent=(100-up).toFixed(0)+"% down ▼";$k("kxsplit").style.width=up+"%";
  $k("kxlv").innerHTML=`median <b>${fp(c*(1+t.median_ret_pct/100))}</b> (${pc(t.median_ret_pct)})<br>p75 ${fp(c*(1+t.p75_ret_pct/100))} · p25 ${fp(c*(1+t.p25_ret_pct/100))}`;
  const g=$k("kxreg");g.textContent=t.regime+(t.stay_out?" · STAY OUT":"");g.className="kx-reg "+(t.regime=="TRENDING"?"t":"c");
- const cr=sym=="ETH"?"eth":"xrp",CR=cr.toUpperCase(),b=K[cr+"_backtest"],bk=K[cr+"_bank"];let s=`<div class="hl"><b>${t.n_sampled||t.n_paths}</b>PATHS · ${(t.paths||[]).length} DRAWN</div><div><b>${(t.confidence*100).toFixed(1)}%</b>CONFIDENCE</div><div><b style="color:${t.median_ret_pct>=0?TEAL:RED}">${pc(t.median_ret_pct)}</b>MEDIAN MOVE</div><div><b>${t.direction}</b>DIRECTION</div>`;
+ const isC=sym=="XRP"||sym=="ETH",cr=sym.toLowerCase(),CR=sym,b=isC?K[cr+"_backtest"]:null,bk=isC?K[cr+"_bank"]:null;let s=`<div class="hl"><b>${t.n_sampled||t.n_paths}</b>PATHS · ${(t.paths||[]).length} DRAWN</div><div><b>${(t.confidence*100).toFixed(1)}%</b>CONFIDENCE</div><div><b style="color:${t.median_ret_pct>=0?TEAL:RED}">${pc(t.median_ret_pct)}</b>MEDIAN MOVE</div><div><b>${t.direction}</b>DIRECTION</div><div><b>${e(t.regime)}</b>REGIME</div><div><b>${t.pct_paths_up!=null?(t.direction=="UP"?t.pct_paths_up:100-t.pct_paths_up).toFixed(0)+"%":"--"}</b>AGREEING</div>`;
  if(sym==CR&&b&&b.hit_rate_pct!=null)s+=`<div class="hl"><b>${b.hit_rate_pct}%</b>HIT-RATE (bt n=${b.hit_n})</div>`;
  if(bk)s+=`<div class="pp"><b>$${(+bk.equity_usd).toFixed(2)}</b>${CR} PAPER BANK</div>`;
+ if(!isC)s+=`<div class="sec">${CR} BACKTEST</div><div style="grid-column:1/-1"><b>--</b>no paper bank or backtest yet for ${CR}</div>`;
+ else if(!b)s+=`<div class="sec">${CR} BACKTEST</div><div style="grid-column:1/-1"><b>--</b>no backtest yet</div>`;
  if(b)s+=`<div class="sec">${CR} BACKTEST 1Y</div><div><b>${b.trades}</b>TRADES</div><div><b>${b.win_rate_pct}%</b>WIN RATE</div><div><b style="color:${b.return_pct>=0?TEAL:RED}">${pc(b.return_pct)}</b>RETURN</div><div><b style="color:${RED}">-${b.max_drawdown_pct}%</b>MAX DD</div>`;
  $k("kxstats").innerHTML=s;
  let L=K.log.map(l=>`<div><i>kronos:</i> ${e(new Date(l.utc).toLocaleString([], {month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}))} ${e(l.text)}</div>`);
