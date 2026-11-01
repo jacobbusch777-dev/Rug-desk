@@ -103,7 +103,7 @@ html,body{height:100%;overflow:hidden}
 <div style="font-size:11px;color:var(--l);text-align:center;margin-bottom:20px">Read-only paper terminal. Simulated fills on a local ledger. No brokerage.</div>
 </div></div></section>
 <section class="pane" id="p3"><div class="kx">
-<div class="kx-top"><span class="kx-brand">KRONOS<span>//</span>FORECAST</span><span class="kx-tabs" id="kxtabs"><button data-s="SPY" class="on">SPY</button><button data-s="QQQ">QQQ</button><button data-s="XRP">XRP</button><button data-s="ETH">ETH</button></span></div>
+<div class="kx-top"><span class="kx-brand">KRONOS<span>//</span>FORECAST</span><span id="kxlive" title="live Binance feed (XRP/ETH only)" style="display:none;font-size:10px;margin-left:8px;color:#758D94"><i id="kxld" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#758D94;margin-right:4px"></i>LIVE</span><span class="kx-tabs" id="kxtabs"><button data-s="SPY" class="on">SPY</button><button data-s="QQQ">QQQ</button><button data-s="XRP">XRP</button><button data-s="ETH">ETH</button></span></div>
 <div class="kx-chart"><canvas id="kxc"></canvas><div class="kx-dir" id="kxdir"></div></div>
 <div class="kx-panels">
 <div class="kx-p"><div class="kx-h">PRICE</div><div class="kx-px" id="kxpx">--</div><div class="kx-ud"><span class="u" id="kxup">--</span><span class="d" id="kxdn">--</span></div><div class="kx-split"><div id="kxsplit"></div></div><div class="kx-lv" id="kxlv"></div><div class="kx-reg" id="kxreg">--</div></div>
@@ -256,14 +256,32 @@ function krender(){const t=T();if(!t){$k("kxdir").textContent="no Kronos data fo
  const lg=$k("kxlog");lg.innerHTML=L.join("");lg.scrollTop=lg.scrollHeight;
  $k("kxsrc").textContent=`● ${t.source} | ${t.timeframe}`;$k("kxdir").textContent=`${sym} · last ${String(t.last_candle).slice(0,16)} · ${t.direction}`;
  seed++;}
-document.querySelectorAll("#kxtabs button").forEach(bn=>bn.onclick=()=>{sym=bn.dataset.s;document.querySelectorAll("#kxtabs button").forEach(x=>x.classList.toggle("on",x==bn));krender()});
+document.querySelectorAll("#kxtabs button").forEach(bn=>bn.onclick=()=>{sym=bn.dataset.s;document.querySelectorAll("#kxtabs button").forEach(x=>x.classList.toggle("on",x==bn));krender();lsync()});
+// ---- live 1h candles for XRP/ETH only (Binance public feed, display-only; forecasts/stats untouched) ----
+const LS={XRP:"xrpusdt",ETH:"ethusdt"},LVk={};let ws=null,wsSym=null,poll=0,lastTick=0,wsFails=0;
+const kt=ms=>new Date(ms).toISOString().slice(0,16).replace("T"," ");
+function lput(s,k){try{const a=LVk[s]||(LVk[s]={});a[kt(+k[0])]=[kt(+k[0]),+k[1],+k[2],+k[3],+k[4]];const ks=Object.keys(a).sort();while(ks.length>30)delete a[ks.shift()];lastTick=Date.now()}catch(x){}}
+function lstop(){if(ws){try{ws.onclose=ws.onerror=ws.onmessage=null;ws.close()}catch(x){}}ws=null;wsSym=null;clearInterval(poll);poll=0}
+async function lpoll(s){try{const r=await fetch(`https://data-api.binance.vision/api/v3/klines?symbol=${LS[s].toUpperCase()}&interval=1h&limit=3`,{cache:"no-store"});if(!r.ok)return;(await r.json()).forEach(k=>lput(s,k))}catch(x){}}
+function lstart(s){lstop();wsSym=s;lpoll(s);const urls=["wss://data-stream.binance.vision/ws/","wss://stream.binance.com:9443/ws/"];
+ const go=()=>{if(wsSym!==s)return;if(wsFails>=4){if(!poll)poll=setInterval(()=>lpoll(s),5000);return}
+  try{ws=new WebSocket(urls[wsFails%2]+LS[s]+"@kline_1h")}catch(x){wsFails++;return go()}
+  ws.onmessage=m=>{try{const k=JSON.parse(m.data).k;if(k)lput(s,[k.t,k.o,k.h,k.l,k.c]);wsFails=0;if(poll){clearInterval(poll);poll=0}}catch(x){}};
+  ws.onerror=()=>{};ws.onclose=()=>{if(wsSym!==s)return;wsFails++;if(!poll)poll=setInterval(()=>lpoll(s),5000);setTimeout(go,wsFails<4?3000:60000)}};
+ go()}
+function lsync(){const want=(LS[sym]&&pagerIdx()==2&&!document.hidden)?sym:null;$k("kxlive").style.display=LS[sym]?"inline":"none";if(want!==wsSym){if(want){wsFails=0;lstart(want)}else lstop()}}
+setInterval(()=>{lsync();const ok=wsSym&&Date.now()-lastTick<15000;$k("kxld").style.background=ok?TEAL:MUT;$k("kxlive").style.color=ok?TEAL:MUT},1000);
+PG.addEventListener("scroll",lsync,{passive:true});document.addEventListener("visibilitychange",lsync);
+window.kxLive=()=>({sym,wsSym,ws:!!ws&&ws.readyState,poll:!!poll,lastTick,now:(LVk[sym]?Object.values(LVk[sym]).sort((a,b)=>a[0]<b[0]?-1:1).pop():null)});
 function draw(now){const t=T(),W=C.clientWidth,H=C.clientHeight,dp=devicePixelRatio||1;if(C.width!=W*dp){C.width=W*dp;C.height=H*dp}
  X.setTransform(dp,0,0,dp,0,0);X.clearRect(0,0,W,H);if(!t||!t.candles){requestAnimationFrame(draw);return}
- const cs=t.candles,P=t.paths||[],n=cs.length,f=(P[0]||[]).length,padR=78,cw=(W-padR-6)/(n+f+1),px0=6+(n-.5)*cw;
- let lo=Infinity,hi=-Infinity;cs.forEach(k=>{lo=Math.min(lo,k[3]);hi=Math.max(hi,k[2])});P.forEach(p=>p.forEach(v=>{lo=Math.min(lo,v);hi=Math.max(hi,v)}));const m=(hi-lo)*.06;lo-=m;hi+=m;
+ let cs=t.candles;const P=t.paths||[],n0=cs.length;let nowP=t.last_close;
+ if(LS[sym]&&LVk[sym]&&wsSym==sym){const m={};cs.forEach(k=>m[k[0]]=k);Object.values(LVk[sym]).forEach(k=>{if(k[0]>=cs[0][0])m[k[0]]=k});cs=Object.keys(m).sort().map(k=>m[k]);nowP=cs[cs.length-1][4]}
+ const n=n0,f=(P[0]||[]).length,padR=78,cw=(W-padR-6)/(n+f+1),px0=6+(n-.5)*cw;
+ let lo=Infinity,hi=-Infinity;cs.forEach(k=>{lo=Math.min(lo,k[3]);hi=Math.max(hi,k[2])});lo=Math.min(lo,nowP);hi=Math.max(hi,nowP);P.forEach(p=>p.forEach(v=>{lo=Math.min(lo,v);hi=Math.max(hi,v)}));const m=(hi-lo)*.06;lo-=m;hi+=m;
  const y=v=>18+(H-34)*(1-(v-lo)/(hi-lo)),xi=i=>6+(i+.5)*cw;
  X.strokeStyle="#132226";X.lineWidth=1;X.fillStyle=MUT;X.font="9px 'JetBrains Mono',monospace";X.textAlign="left";
- for(let i=0;i<=6;i++){const v=lo+(hi-lo)*i/6,yy=y(v);X.beginPath();X.moveTo(0,yy);X.lineTo(W-padR,yy);X.stroke();if(Math.abs(yy-y(t.last_close))>12)X.fillText(fp(v),W-padR+4,yy+3)}
+ for(let i=0;i<=6;i++){const v=lo+(hi-lo)*i/6,yy=y(v);X.beginPath();X.moveTo(0,yy);X.lineTo(W-padR,yy);X.stroke();if(Math.abs(yy-y(nowP))>12)X.fillText(fp(v),W-padR+4,yy+3)}
  for(let i=0;i<n+f;i+=6){X.beginPath();X.moveTo(xi(i),0);X.lineTo(xi(i),H);X.stroke()}
  cs.forEach((k,i)=>{const u=k[4]>=k[1],col=u?TEAL:RED;X.strokeStyle=col;X.fillStyle=col;X.beginPath();X.moveTo(xi(i),y(k[2]));X.lineTo(xi(i),y(k[3]));X.stroke();
   const a=y(Math.max(k[1],k[4])),b=Math.max(1,Math.abs(y(k[1])-y(k[4])));X.fillRect(xi(i)-cw*.33,a,cw*.66,b)});
@@ -275,8 +293,8 @@ function draw(now){const t=T(),W=C.clientWidth,H=C.clientHeight,dp=devicePixelRa
  for(let k=0;k<3;k++){const q=((ph*.6+k/3)%1);X.strokeStyle=`rgba(0,255,208,${(1-q)*.6})`;X.beginPath();X.arc(ox,oy,4+q*26,0,7);X.stroke()}
  const pu=4+Math.sin(ph*4)*1.5;X.shadowColor=TEAL;X.shadowBlur=14+pu*2;X.fillStyle=TEAL;X.beginPath();X.arc(ox,oy,pu,0,7);X.fill();X.shadowBlur=0;
  // NOW tag: solid pill in the right price margin (never over candles/paths)
- const ty=Math.max(9,Math.min(H-9,oy)),tx=W-padR+5;X.fillStyle=TEAL;X.beginPath();X.moveTo(W-padR,ty);X.lineTo(tx,ty-8);X.lineTo(W-2,ty-8);X.lineTo(W-2,ty+8);X.lineTo(tx,ty+8);X.closePath();X.fill();
- X.fillStyle="#04070A";X.font="bold 9px 'JetBrains Mono',monospace";X.textAlign="left";X.fillText("NOW "+fp(c),tx+2,ty+3);requestAnimationFrame(draw)}
+ const ty=Math.max(9,Math.min(H-9,y(nowP))),tx=W-padR+5;X.fillStyle=TEAL;X.beginPath();X.moveTo(W-padR,ty);X.lineTo(tx,ty-8);X.lineTo(W-2,ty-8);X.lineTo(W-2,ty+8);X.lineTo(tx,ty+8);X.closePath();X.fill();
+ X.fillStyle="#04070A";X.font="bold 9px 'JetBrains Mono',monospace";X.textAlign="left";X.fillText("NOW "+fp(nowP),tx+2,ty+3);requestAnimationFrame(draw)}
 requestAnimationFrame(draw);
 PG.addEventListener("scroll",()=>{if(pagerIdx()==2&&!K)kload()},{passive:true});kload();setInterval(()=>{if(!document.hidden&&pagerIdx()==2)kload()},120000);
 })();
