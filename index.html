@@ -55,7 +55,7 @@ html,body{height:100%;overflow:hidden}
 .kx-reg{margin-top:5px;text-align:center;font-size:11px;font-weight:700;letter-spacing:2px;padding:3px}.kx-reg.t{background:#00FFD0;color:#000}.kx-reg.c{border:1px solid #FFB84D;color:#FFB84D}
 .kx-g{display:grid;grid-template-columns:1fr 1fr;gap:4px}.kx-g div{border:1px solid #132226;padding:2px 4px;font-size:8px;color:#758D94}.kx-g b{display:block;font-size:12px;color:#E0E8EA;font-weight:600}
 .kx-g .hl{border-color:#00FFD0}.kx-g .hl b{color:#00FFD0}.kx-g .pp b{color:#FFB84D}.kx-g .sec{grid-column:1/-1;border:none;padding:2px 0 0;color:#FFB84D;letter-spacing:1px}
-.kx-log{height:74px;overflow-y:auto;font-size:10px;line-height:1.55;color:#758D94}.kx-log i{color:#00FFD0;font-style:normal}.kx-log .hit{color:#00FFD0}.kx-log .miss{color:#FF2A55}
+.kx-log{height:74px;overflow-y:auto;font-size:10px;line-height:1.55;color:#758D94}.kx-log i{color:#00FFD0;font-style:normal}.kx-log .hit{color:#00FFD0}.kx-log .miss{color:#FF2A55}.kx-g .hit{color:#00FFD0}.kx-g .miss{color:#FF2A55}
 .kx-foot{display:flex;align-items:center;gap:8px;font-size:10px;color:#758D94;border-top:1px solid #132226;padding-top:5px;flex-wrap:wrap}#kxsrc{color:#E0E8EA}.kx-paper{background:#FFB84D;color:#000;font-weight:700;padding:1px 6px;letter-spacing:1px}.kx-mut{margin-left:auto}
 @media(min-width:700px){.kx-panels{grid-template-columns:1fr 1fr 1.3fr}.kx-logp{grid-column:auto}.kx-chart{height:62vh}}
 </style><link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Rajdhani:wght@700&display=swap" rel="stylesheet"></head><body><div class="pager" id="pager"><section class="pane" id="p1"><div class="wrap">
@@ -245,6 +245,11 @@ function krender(){const t=T();if(!t){$k("kxdir").textContent="no Kronos data fo
  if(!isC)s+=`<div class="sec">${CR} BACKTEST</div><div style="grid-column:1/-1"><b>--</b>no paper bank or backtest yet for ${CR}</div>`;
  else if(!b)s+=`<div class="sec">${CR} BACKTEST</div><div style="grid-column:1/-1"><b>--</b>no backtest yet</div>`;
  if(b)s+=`<div class="sec">${CR} BACKTEST 1Y</div><div><b>${b.trades}</b>TRADES</div><div><b>${b.win_rate_pct}%</b>WIN RATE</div><div><b style="color:${b.return_pct>=0?TEAL:RED}">${pc(b.return_pct)}</b>RETURN</div><div><b style="color:${RED}">-${b.max_drawdown_pct}%</b>MAX DD</div>`;
+ const ls=K.live_score&&K.live_score.symbols&&K.live_score.symbols[sym];s+=`<div class="sec">${sym} LIVE SCORE</div>`;
+ if(!ls)s+=`<div style="grid-column:1/-1"><b>--</b>no live score data yet</div>`;
+ else{s+=`<div><b>${ls.n}</b>LIVE GRADED</div><div><b>${ls.hit_rate_pct==null?"--":ls.hit_rate_pct+"%"}</b>LIVE HIT-RATE</div><div style="grid-column:1/-1"><b>${ls.pending}</b>PENDING (horizon not reached / ungraded)</div>`;
+  if(ls.recent&&ls.recent.length)s+=`<div style="grid-column:1/-1">${ls.recent.map(r=>`<span class="${r.hit?"hit":"miss"}">${r.hit?"HIT":"MISS"}</span> ${e(String(r.utc).slice(5,16).replace("T"," "))} ${r.dir} ${pc(r.actual_ret_pct)}`).join("<br>")}</div>`;
+  else s+=`<div style="grid-column:1/-1">no live forecasts graded yet</div>`}
  $k("kxstats").innerHTML=s;
  let L=K.log.map(l=>`<div><i>kronos:</i> ${e(new Date(l.utc).toLocaleString([], {month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}))} ${e(l.text)}</div>`);
  if(sym==CR&&K[cr+"_recent_hits"])L=K[cr+"_recent_hits"].map(h=>`<div><i>kronos:</i> bt ${e(h.utc.slice(0,10))} ${h.dir} → <span class="${h.hit?"hit":"miss"}">${h.hit?"HIT":"MISS"}</span></div>`).concat(L);
