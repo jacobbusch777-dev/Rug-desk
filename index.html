@@ -39,7 +39,26 @@ html,body{height:100%;overflow:hidden}
 .dots button{pointer-events:auto;width:8px;height:8px;border-radius:4px;border:none;padding:0;background:#D1D5DB;transition:width .2s,background .2s}
 .dots button.on{width:22px;background:#111827}
 .tk{font-family:var(--m);font-weight:700}
-</style></head><body><div class="pager" id="pager"><section class="pane" id="p1"><div class="wrap">
+#p3{background:#070A0E;color:#E0E8EA;font-family:'JetBrains Mono','Share Tech Mono',ui-monospace,Menlo,monospace}
+.kx{display:flex;flex-direction:column;min-height:100%;padding:calc(6px + env(safe-area-inset-top)) 8px calc(30px + env(safe-area-inset-bottom));gap:6px;box-sizing:border-box}
+.kx *{border-radius:0!important;box-sizing:border-box}
+.kx-top{display:flex;align-items:center;gap:8px}.kx-brand{font-family:Rajdhani,Teko,sans-serif;font-weight:700;letter-spacing:2px;font-size:16px;color:#00FFD0;text-shadow:0 0 8px #00FFD055}.kx-brand span{color:#758D94}
+.kx-tabs{margin-left:auto;display:flex}.kx-tabs button{font:inherit;font-size:11px;background:#0A1015;color:#758D94;border:1px solid #1B2F33;padding:4px 9px;margin-left:-1px}.kx-tabs button.on{color:#070A0E;background:#00FFD0;border-color:#00FFD0}
+.kx-chart{position:relative;height:45vh;height:45dvh;min-height:260px;background:#0A1015;border:1px solid #1B2F33}#kxc{width:100%;height:100%;display:block}
+.kx-dir{position:absolute;left:8px;top:6px;font-size:11px;color:#758D94}
+.kx-panels{display:grid;grid-template-columns:1fr 1fr;gap:6px}.kx-logp{grid-column:1/-1}
+.kx-p{background:#0A1015;border:1px solid #1B2F33;padding:7px;min-width:0}.kx-h{font-size:9px;letter-spacing:2px;color:#758D94;margin-bottom:4px;text-transform:uppercase}
+.kx-px{font-family:Rajdhani,Teko,sans-serif;font-weight:700;font-size:32px;line-height:1}
+.kx-ud{display:flex;justify-content:space-between;font-size:11px;margin-top:4px}.kx-ud .u{color:#00FFD0}.kx-ud .d{color:#FF2A55}
+.kx-split{height:5px;background:#FF2A55;margin:3px 0 5px}.kx-split div{height:100%;background:#00FFD0;box-shadow:0 0 6px #00FFD0}
+.kx-lv{font-size:10px;color:#758D94;line-height:1.5}.kx-lv b{color:#FFB84D;font-weight:400}
+.kx-reg{margin-top:5px;text-align:center;font-size:11px;font-weight:700;letter-spacing:2px;padding:3px}.kx-reg.t{background:#00FFD0;color:#000}.kx-reg.c{border:1px solid #FFB84D;color:#FFB84D}
+.kx-g{display:grid;grid-template-columns:1fr 1fr;gap:4px}.kx-g div{border:1px solid #132226;padding:2px 4px;font-size:8px;color:#758D94}.kx-g b{display:block;font-size:12px;color:#E0E8EA;font-weight:600}
+.kx-g .hl{border-color:#00FFD0}.kx-g .hl b{color:#00FFD0}.kx-g .pp b{color:#FFB84D}.kx-g .sec{grid-column:1/-1;border:none;padding:2px 0 0;color:#FFB84D;letter-spacing:1px}
+.kx-log{height:74px;overflow-y:auto;font-size:10px;line-height:1.55;color:#758D94}.kx-log i{color:#00FFD0;font-style:normal}.kx-log .hit{color:#00FFD0}.kx-log .miss{color:#FF2A55}
+.kx-foot{display:flex;align-items:center;gap:8px;font-size:10px;color:#758D94;border-top:1px solid #132226;padding-top:5px;flex-wrap:wrap}#kxsrc{color:#E0E8EA}.kx-paper{background:#FFB84D;color:#000;font-weight:700;padding:1px 6px;letter-spacing:1px}.kx-mut{margin-left:auto}
+@media(min-width:700px){.kx-panels{grid-template-columns:1fr 1fr 1.3fr}.kx-logp{grid-column:auto}.kx-chart{height:62vh}}
+</style><link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Rajdhani:wght@700&display=swap" rel="stylesheet"></head><body><div class="pager" id="pager"><section class="pane" id="p1"><div class="wrap">
 <div class="bar"><b style="font-size:13px">GROK BOT • <span class="mono" id="c1">--:--</span></b>
 <span class="pill" style="background:#111827;color:#fff">NIGHT DESK</span><span class="pill" style="background:#E5E7EB">6 AGENTS</span>
 <span style="font-size:11px;font-weight:700">PAPER → <span style="color:var(--g)">LIVE</span></span>
@@ -83,7 +102,17 @@ html,body{height:100%;overflow:hidden}
 <button class="btn btn2" id="orf">Refresh</button>
 <div style="font-size:11px;color:var(--l);text-align:center;margin-bottom:20px">Read-only paper terminal. Simulated fills on a local ledger. No brokerage.</div>
 </div></div></section>
-</div><div class="dots" id="dots"><button class="on" aria-label="Rug Desk"></button><button aria-label="Options Desk"></button></div>
+<section class="pane" id="p3"><div class="kx">
+<div class="kx-top"><span class="kx-brand">KRONOS<span>//</span>FORECAST</span><span class="kx-tabs" id="kxtabs"><button data-s="SPY" class="on">SPY</button><button data-s="QQQ">QQQ</button><button data-s="XRP">XRP</button></span></div>
+<div class="kx-chart"><canvas id="kxc"></canvas><div class="kx-dir" id="kxdir"></div></div>
+<div class="kx-panels">
+<div class="kx-p"><div class="kx-h">PRICE</div><div class="kx-px" id="kxpx">--</div><div class="kx-ud"><span class="u" id="kxup">--</span><span class="d" id="kxdn">--</span></div><div class="kx-split"><div id="kxsplit"></div></div><div class="kx-lv" id="kxlv"></div><div class="kx-reg" id="kxreg">--</div></div>
+<div class="kx-p"><div class="kx-h">STATS</div><div class="kx-g" id="kxstats"></div></div>
+<div class="kx-p kx-logp"><div class="kx-h">&gt; Kronos lab</div><div class="kx-log" id="kxlog"></div></div>
+</div>
+<div class="kx-foot"><span id="kxsrc">● -- | --</span><span class="kx-paper">PAPER</span><span class="kx-mut">nothing trades until you approve</span></div>
+</div></section>
+</div><div class="dots" id="dots"><button class="on" aria-label="Rug Desk"></button><button aria-label="Options Desk"></button><button aria-label="Kronos"></button></div>
 <script>const GH0="jacobbusch777-dev/Rug-desk";let APIok=0;async function api(f){if(Date.now()<APIok)throw 0;const r=await fetch(`https://api.github.com/repos/${GH0}/contents/${f}`,{cache:"no-store",headers:{Accept:"application/vnd.github.raw"}});
  const rem=+r.headers.get("x-ratelimit-remaining");if(r.status==403||r.status==429||(r.headers.has("x-ratelimit-remaining")&&rem<8))APIok=(+r.headers.get("x-ratelimit-reset")*1000)||Date.now()+900000;if(!r.ok)throw 0;return r}
 async function gget(f){const t=Date.now(),tries=[()=>fetch(`${f}?t=${t}`,{cache:"no-store"}),()=>api(f),
@@ -196,4 +225,52 @@ let LVapi=0;async function lload(){const got=[];try{got.push(await (await gget("
  for(const d of got)if(!LV||d.generated>=LV.generated)LV=d;if(got.length)lrender()}
 function ltick(){if(!document.hidden)lload();setTimeout(ltick,(LV&&LV.positions&&LV.positions.length)?20000:60000)}
 ltick();setInterval(()=>{if(!document.hidden&&LV)lrender()},1000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)lload()});
-</script></body></html>
+</script>
+<script>
+// ---- Kronos screen: real Kronos sampled paths from kronos_state.json (paper, read-only) ----
+(()=>{let K=null,sym="SPY",tm=0,seed=1;const C=document.getElementById("kxc"),X=C.getContext("2d"),$k=i=>document.getElementById(i);
+const TEAL="#00FFD0",RED="#FF2A55",GOLD="#FFB84D",MUT="#758D94",e=s=>String(s??"").replace(/[<&>]/g,c=>({"<":"&lt;","&":"&amp;",">":"&gt;"}[c]));
+const fp=(v,s)=>v==null?"--":(v<10?v.toFixed(4):v.toFixed(2)),pc=v=>v==null?"--":(v>0?"+":"")+(+v).toFixed(2)+"%";
+async function kload(){try{const r=await gget("kronos_state.json");K=await r.json();krender()}catch(x){$k("kxdir").textContent="kronos_state.json unavailable"}}
+window.kload=kload;
+function T(){return K&&K.tickers[sym]}
+function krender(){const t=T();if(!t){$k("kxdir").textContent="no Kronos data for "+sym;return}
+ const up=t.pct_paths_up,c=t.last_close;$k("kxpx").textContent=(sym=="XRP"?"$":"")+fp(c);
+ $k("kxup").textContent="▲ "+up.toFixed(0)+"% up";$k("kxdn").textContent=(100-up).toFixed(0)+"% down ▼";$k("kxsplit").style.width=up+"%";
+ $k("kxlv").innerHTML=`median <b>${fp(c*(1+t.median_ret_pct/100))}</b> (${pc(t.median_ret_pct)})<br>p75 ${fp(c*(1+t.p75_ret_pct/100))} · p25 ${fp(c*(1+t.p25_ret_pct/100))}`;
+ const g=$k("kxreg");g.textContent=t.regime+(t.stay_out?" · STAY OUT":"");g.className="kx-reg "+(t.regime=="TRENDING"?"t":"c");
+ const b=K.xrp_backtest,bk=K.xrp_bank;let s=`<div class="hl"><b>${t.n_sampled||t.n_paths}</b>PATHS · ${(t.paths||[]).length} DRAWN</div><div><b>${(t.confidence*100).toFixed(1)}%</b>CONFIDENCE</div><div><b style="color:${t.median_ret_pct>=0?TEAL:RED}">${pc(t.median_ret_pct)}</b>MEDIAN MOVE</div><div><b>${t.direction}</b>DIRECTION</div>`;
+ if(sym=="XRP"&&b&&b.hit_rate_pct!=null)s+=`<div class="hl"><b>${b.hit_rate_pct}%</b>HIT-RATE (bt n=${b.hit_n})</div>`;
+ if(bk)s+=`<div class="pp"><b>$${(+bk.equity_usd).toFixed(2)}</b>XRP PAPER BANK</div>`;
+ if(b)s+=`<div class="sec">XRP BACKTEST 1Y</div><div><b>${b.trades}</b>TRADES</div><div><b>${b.win_rate_pct}%</b>WIN RATE</div><div><b style="color:${b.return_pct>=0?TEAL:RED}">${pc(b.return_pct)}</b>RETURN</div><div><b style="color:${RED}">-${b.max_drawdown_pct}%</b>MAX DD</div>`;
+ $k("kxstats").innerHTML=s;
+ let L=K.log.map(l=>`<div><i>kronos:</i> ${e(new Date(l.utc).toLocaleString([], {month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}))} ${e(l.text)}</div>`);
+ if(sym=="XRP"&&K.xrp_recent_hits)L=K.xrp_recent_hits.map(h=>`<div><i>kronos:</i> bt ${e(h.utc.slice(0,10))} ${h.dir} → <span class="${h.hit?"hit":"miss"}">${h.hit?"HIT":"MISS"}</span></div>`).concat(L);
+ const lg=$k("kxlog");lg.innerHTML=L.join("");lg.scrollTop=lg.scrollHeight;
+ $k("kxsrc").textContent=`● ${t.source} | ${t.timeframe}`;$k("kxdir").textContent=`${sym} · last ${String(t.last_candle).slice(0,16)} · ${t.direction}`;
+ seed++;}
+document.querySelectorAll("#kxtabs button").forEach(bn=>bn.onclick=()=>{sym=bn.dataset.s;document.querySelectorAll("#kxtabs button").forEach(x=>x.classList.toggle("on",x==bn));krender()});
+function draw(now){const t=T(),W=C.clientWidth,H=C.clientHeight,dp=devicePixelRatio||1;if(C.width!=W*dp){C.width=W*dp;C.height=H*dp}
+ X.setTransform(dp,0,0,dp,0,0);X.clearRect(0,0,W,H);if(!t||!t.candles){requestAnimationFrame(draw);return}
+ const cs=t.candles,P=t.paths||[],n=cs.length,f=(P[0]||[]).length,padR=52,cw=(W-padR-6)/(n+f+1),px0=6+(n-.5)*cw;
+ let lo=Infinity,hi=-Infinity;cs.forEach(k=>{lo=Math.min(lo,k[3]);hi=Math.max(hi,k[2])});P.forEach(p=>p.forEach(v=>{lo=Math.min(lo,v);hi=Math.max(hi,v)}));const m=(hi-lo)*.06;lo-=m;hi+=m;
+ const y=v=>18+(H-34)*(1-(v-lo)/(hi-lo)),xi=i=>6+(i+.5)*cw;
+ X.strokeStyle="#132226";X.lineWidth=1;X.fillStyle=MUT;X.font="9px 'JetBrains Mono',monospace";X.textAlign="left";
+ for(let i=0;i<=6;i++){const v=lo+(hi-lo)*i/6,yy=y(v);X.beginPath();X.moveTo(0,yy);X.lineTo(W-padR,yy);X.stroke();X.fillText(fp(v),W-padR+4,yy+3)}
+ for(let i=0;i<n+f;i+=6){X.beginPath();X.moveTo(xi(i),0);X.lineTo(xi(i),H);X.stroke()}
+ cs.forEach((k,i)=>{const u=k[4]>=k[1],col=u?TEAL:RED;X.strokeStyle=col;X.fillStyle=col;X.beginPath();X.moveTo(xi(i),y(k[2]));X.lineTo(xi(i),y(k[3]));X.stroke();
+  const a=y(Math.max(k[1],k[4])),b=Math.max(1,Math.abs(y(k[1])-y(k[4])));X.fillRect(xi(i)-cw*.33,a,cw*.66,b)});
+ const c=t.last_close,ph=now/1000;
+ P.forEach((p,j)=>{const end=p[f-1],r=end/c-1,col=Math.abs(r)<.002?"255,184,77":r>0?"0,255,208":"255,42,85";
+  for(let i=0;i<f;i++){const a0=i?p[i-1]:c,w=Math.sin(ph*1.3+j*1.7+i*.5)*(hi-lo)*.004*(i/f);X.strokeStyle=`rgba(${col},${(.38*(1-i/f*.85)).toFixed(3)})`;X.lineWidth=1;
+   X.beginPath();X.moveTo(i?xi(n+i-1):xi(n-1),y(a0+(i?Math.sin(ph*1.3+j*1.7+(i-1)*.5)*(hi-lo)*.004*((i-1)/f):0)));X.lineTo(xi(n+i),y(p[i]+w));X.stroke()}});
+ const ox=xi(n-1),oy=y(c);X.strokeStyle="rgba(0,255,208,.7)";X.setLineDash([3,3]);X.beginPath();X.moveTo(ox,0);X.lineTo(ox,H);X.stroke();X.setLineDash([]);
+ for(let k=0;k<3;k++){const q=((ph*.6+k/3)%1);X.strokeStyle=`rgba(0,255,208,${(1-q)*.6})`;X.beginPath();X.arc(ox,oy,4+q*26,0,7);X.stroke()}
+ const pu=4+Math.sin(ph*4)*1.5;X.shadowColor=TEAL;X.shadowBlur=14+pu*2;X.fillStyle=TEAL;X.beginPath();X.arc(ox,oy,pu,0,7);X.fill();X.shadowBlur=0;
+ X.fillStyle="#070A0E";X.fillRect(W-padR,oy-7,padR,14);X.fillStyle=TEAL;X.fillText(fp(c),W-padR+4,oy+3);
+ X.fillStyle=TEAL;X.textAlign="right";X.fillText("NOW "+fp(c),ox-6,oy-10);requestAnimationFrame(draw)}
+requestAnimationFrame(draw);
+PG.addEventListener("scroll",()=>{if(pagerIdx()==2&&!K)kload()},{passive:true});kload();setInterval(()=>{if(!document.hidden&&pagerIdx()==2)kload()},120000);
+})();
+</script>
+</body></html>
