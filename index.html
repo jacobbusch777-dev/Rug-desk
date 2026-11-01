@@ -103,7 +103,7 @@ html,body{height:100%;overflow:hidden}
 <div style="font-size:11px;color:var(--l);text-align:center;margin-bottom:20px">Read-only paper terminal. Simulated fills on a local ledger. No brokerage.</div>
 </div></div></section>
 <section class="pane" id="p3"><div class="kx">
-<div class="kx-top"><span class="kx-brand">KRONOS<span>//</span>FORECAST</span><span class="kx-tabs" id="kxtabs"><button data-s="SPY" class="on">SPY</button><button data-s="QQQ">QQQ</button><button data-s="XRP">XRP</button></span></div>
+<div class="kx-top"><span class="kx-brand">KRONOS<span>//</span>FORECAST</span><span class="kx-tabs" id="kxtabs"><button data-s="SPY" class="on">SPY</button><button data-s="QQQ">QQQ</button><button data-s="XRP">XRP</button><button data-s="ETH">ETH</button></span></div>
 <div class="kx-chart"><canvas id="kxc"></canvas><div class="kx-dir" id="kxdir"></div></div>
 <div class="kx-panels">
 <div class="kx-p"><div class="kx-h">PRICE</div><div class="kx-px" id="kxpx">--</div><div class="kx-ud"><span class="u" id="kxup">--</span><span class="d" id="kxdn">--</span></div><div class="kx-split"><div id="kxsplit"></div></div><div class="kx-lv" id="kxlv"></div><div class="kx-reg" id="kxreg">--</div></div>
@@ -235,17 +235,17 @@ async function kload(){try{const r=await gget("kronos_state.json");K=await r.jso
 window.kload=kload;
 function T(){return K&&K.tickers[sym]}
 function krender(){const t=T();if(!t){$k("kxdir").textContent="no Kronos data for "+sym;return}
- const up=t.pct_paths_up,c=t.last_close;$k("kxpx").textContent=(sym=="XRP"?"$":"")+fp(c);
+ const up=t.pct_paths_up,c=t.last_close;$k("kxpx").textContent=((sym=="XRP"||sym=="ETH")?"$":"")+fp(c);
  $k("kxup").textContent="▲ "+up.toFixed(0)+"% up";$k("kxdn").textContent=(100-up).toFixed(0)+"% down ▼";$k("kxsplit").style.width=up+"%";
  $k("kxlv").innerHTML=`median <b>${fp(c*(1+t.median_ret_pct/100))}</b> (${pc(t.median_ret_pct)})<br>p75 ${fp(c*(1+t.p75_ret_pct/100))} · p25 ${fp(c*(1+t.p25_ret_pct/100))}`;
  const g=$k("kxreg");g.textContent=t.regime+(t.stay_out?" · STAY OUT":"");g.className="kx-reg "+(t.regime=="TRENDING"?"t":"c");
- const b=K.xrp_backtest,bk=K.xrp_bank;let s=`<div class="hl"><b>${t.n_sampled||t.n_paths}</b>PATHS · ${(t.paths||[]).length} DRAWN</div><div><b>${(t.confidence*100).toFixed(1)}%</b>CONFIDENCE</div><div><b style="color:${t.median_ret_pct>=0?TEAL:RED}">${pc(t.median_ret_pct)}</b>MEDIAN MOVE</div><div><b>${t.direction}</b>DIRECTION</div>`;
- if(sym=="XRP"&&b&&b.hit_rate_pct!=null)s+=`<div class="hl"><b>${b.hit_rate_pct}%</b>HIT-RATE (bt n=${b.hit_n})</div>`;
- if(bk)s+=`<div class="pp"><b>$${(+bk.equity_usd).toFixed(2)}</b>XRP PAPER BANK</div>`;
- if(b)s+=`<div class="sec">XRP BACKTEST 1Y</div><div><b>${b.trades}</b>TRADES</div><div><b>${b.win_rate_pct}%</b>WIN RATE</div><div><b style="color:${b.return_pct>=0?TEAL:RED}">${pc(b.return_pct)}</b>RETURN</div><div><b style="color:${RED}">-${b.max_drawdown_pct}%</b>MAX DD</div>`;
+ const cr=sym=="ETH"?"eth":"xrp",CR=cr.toUpperCase(),b=K[cr+"_backtest"],bk=K[cr+"_bank"];let s=`<div class="hl"><b>${t.n_sampled||t.n_paths}</b>PATHS · ${(t.paths||[]).length} DRAWN</div><div><b>${(t.confidence*100).toFixed(1)}%</b>CONFIDENCE</div><div><b style="color:${t.median_ret_pct>=0?TEAL:RED}">${pc(t.median_ret_pct)}</b>MEDIAN MOVE</div><div><b>${t.direction}</b>DIRECTION</div>`;
+ if(sym==CR&&b&&b.hit_rate_pct!=null)s+=`<div class="hl"><b>${b.hit_rate_pct}%</b>HIT-RATE (bt n=${b.hit_n})</div>`;
+ if(bk)s+=`<div class="pp"><b>$${(+bk.equity_usd).toFixed(2)}</b>${CR} PAPER BANK</div>`;
+ if(b)s+=`<div class="sec">${CR} BACKTEST 1Y</div><div><b>${b.trades}</b>TRADES</div><div><b>${b.win_rate_pct}%</b>WIN RATE</div><div><b style="color:${b.return_pct>=0?TEAL:RED}">${pc(b.return_pct)}</b>RETURN</div><div><b style="color:${RED}">-${b.max_drawdown_pct}%</b>MAX DD</div>`;
  $k("kxstats").innerHTML=s;
  let L=K.log.map(l=>`<div><i>kronos:</i> ${e(new Date(l.utc).toLocaleString([], {month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}))} ${e(l.text)}</div>`);
- if(sym=="XRP"&&K.xrp_recent_hits)L=K.xrp_recent_hits.map(h=>`<div><i>kronos:</i> bt ${e(h.utc.slice(0,10))} ${h.dir} → <span class="${h.hit?"hit":"miss"}">${h.hit?"HIT":"MISS"}</span></div>`).concat(L);
+ if(sym==CR&&K[cr+"_recent_hits"])L=K[cr+"_recent_hits"].map(h=>`<div><i>kronos:</i> bt ${e(h.utc.slice(0,10))} ${h.dir} → <span class="${h.hit?"hit":"miss"}">${h.hit?"HIT":"MISS"}</span></div>`).concat(L);
  const lg=$k("kxlog");lg.innerHTML=L.join("");lg.scrollTop=lg.scrollHeight;
  $k("kxsrc").textContent=`● ${t.source} | ${t.timeframe}`;$k("kxdir").textContent=`${sym} · last ${String(t.last_candle).slice(0,16)} · ${t.direction}`;
  seed++;}
