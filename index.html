@@ -103,7 +103,7 @@ html,body{height:100%;overflow:hidden}
 <div style="font-size:11px;color:var(--l);text-align:center;margin-bottom:20px">Read-only paper terminal. Simulated fills on a local ledger. No brokerage.</div>
 </div></div></section>
 <section class="pane" id="p3"><div class="kx">
-<div class="kx-top"><span class="kx-brand">KRONOS<span>//</span>FORECAST</span><span id="kxlive" title="live Binance feed (XRP/ETH only)" style="display:none;font-size:10px;margin-left:8px;color:#758D94"><i id="kxld" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#758D94;margin-right:4px"></i>LIVE</span><span class="kx-tabs" id="kxtabs"><button data-s="SPY" class="on">SPY</button><button data-s="QQQ">QQQ</button><button data-s="XRP">XRP</button><button data-s="ETH">ETH</button></span></div>
+<div class="kx-top"><span class="kx-brand">KRONOS<span>//</span>FORECAST</span><span id="kxlive" title="live Binance feed (XRP/ETH only)" style="display:none;font-size:10px;margin-left:8px;color:#758D94"><i id="kxld" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#758D94;margin-right:4px"></i>LIVE</span><span class="kx-tabs" id="kxtabs"><button data-s="SPY" class="on">SPY</button><button data-s="QQQ">QQQ</button><button data-s="XRP">XRP</button><button data-s="ETH">ETH</button></span></div><div id="kxpos" style="display:none;margin:6px 8px;padding:8px 10px;border:2px solid #00FFD0;background:#0A1015;font-size:12px;color:#CFE"></div>
 <div class="kx-chart"><canvas id="kxc"></canvas><div class="kx-dir" id="kxdir"></div></div>
 <div class="kx-panels">
 <div class="kx-p"><div class="kx-h">PRICE</div><div class="kx-px" id="kxpx">--</div><div class="kx-ud"><span class="u" id="kxup">--</span><span class="d" id="kxdn">--</span></div><div class="kx-split"><div id="kxsplit"></div></div><div class="kx-lv" id="kxlv"></div><div class="kx-reg" id="kxreg">--</div></div>
@@ -269,7 +269,11 @@ function lstart(s){lstop();wsSym=s;lpoll(s);const urls=["wss://data-stream.binan
   ws.onmessage=m=>{try{const k=JSON.parse(m.data).k;if(k)lput(s,[k.t,k.o,k.h,k.l,k.c]);wsFails=0;if(poll){clearInterval(poll);poll=0}}catch(x){}};
   ws.onerror=()=>{};ws.onclose=()=>{if(wsSym!==s)return;wsFails++;if(!poll)poll=setInterval(()=>lpoll(s),5000);setTimeout(go,wsFails<4?3000:60000)}};
  go()}
-function lsync(){const want=(LS[sym]&&pagerIdx()==2&&!document.hidden)?sym:null;$k("kxlive").style.display=LS[sym]?"inline":"none";if(want!==wsSym){if(want){wsFails=0;lstart(want)}else lstop()}}
+function kpos(){const el=$k("kxpos");if(!el)return;const P=K&&LS[sym]&&K[sym.toLowerCase()+"_position"];if(!P){el.style.display="none";return}
+ const lv=LVk[sym]&&wsSym==sym?Object.values(LVk[sym]).sort((a,b)=>a[0]<b[0]?-1:1).pop():null,px=lv?lv[4]:P.last_px,u=px==null?null:P.qty*px*(1-.0005)*(1-.001)-P.cost_usd,
+ left=Math.max(0,P.exit_due_ts-Date.now()/1000),c=u==null?MUT:u>=0?TEAL:RED;el.style.display="block";el.style.borderColor=c;
+ el.innerHTML=`<b>OPEN PAPER • ${e(P.symbol)} LONG</b> <span style="color:${MUT}">(Kronos desk, approved)</span><br>entry <b>${fp(P.entry_px)}</b> · ${lv?"live":"last"} <b>${fp(px)}</b> · <b style="color:${c}">${u==null?"--":(u>=0?"+":"−")+"$"+Math.abs(u).toFixed(2)}</b> · exit in <b>${left>0?Math.floor(left/3600)+"h "+Math.floor(left%3600/60)+"m":"due now"}</b>`}
+function lsync(){kpos();const want=(LS[sym]&&pagerIdx()==2&&!document.hidden)?sym:null;$k("kxlive").style.display=LS[sym]?"inline":"none";if(want!==wsSym){if(want){wsFails=0;lstart(want)}else lstop()}}
 setInterval(()=>{lsync();const ok=wsSym&&Date.now()-lastTick<15000;$k("kxld").style.background=ok?TEAL:MUT;$k("kxlive").style.color=ok?TEAL:MUT},1000);
 PG.addEventListener("scroll",lsync,{passive:true});document.addEventListener("visibilitychange",lsync);
 window.kxLive=()=>({sym,wsSym,ws:!!ws&&ws.readyState,poll:!!poll,lastTick,now:(LVk[sym]?Object.values(LVk[sym]).sort((a,b)=>a[0]<b[0]?-1:1).pop():null)});
