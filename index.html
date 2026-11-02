@@ -108,7 +108,7 @@ html,body{height:100%;overflow:hidden}
 <div class="kx-panels">
 <div class="kx-p"><div class="kx-h">PRICE</div><div class="kx-px" id="kxpx">--</div><div class="kx-ud"><span class="u" id="kxup">--</span><span class="d" id="kxdn">--</span></div><div class="kx-split"><div id="kxsplit"></div></div><div class="kx-lv" id="kxlv"></div><div class="kx-reg" id="kxreg">--</div></div>
 <div class="kx-p"><div class="kx-h">STATS</div><div class="kx-g" id="kxstats"></div></div>
-<div class="kx-p kx-logp"><div id="kxlesw" style="display:none"><div class="kx-h">LESSONS <span style="color:#758D94;font-weight:400">(advisory)</span></div><div id="kxles" style="font-size:11px;line-height:1.45;margin-bottom:8px"></div></div><div class="kx-h">&gt; Kronos lab</div><div class="kx-log" id="kxlog"></div></div>
+<div class="kx-p kx-logp"><div id="slabw" style="display:none;margin-bottom:8px"><div class="kx-h">STRATEGY LAB <span style="color:#758D94;font-weight:400">(read-only · recommendations only)</span></div><div id="slab" style="font-size:11px;line-height:1.45"></div></div><div id="kxlesw" style="display:none"><div class="kx-h">LESSONS <span style="color:#758D94;font-weight:400">(advisory)</span></div><div id="kxles" style="font-size:11px;line-height:1.45;margin-bottom:8px"></div></div><div class="kx-h">&gt; Kronos lab</div><div class="kx-log" id="kxlog"></div></div>
 </div>
 <div class="kx-foot"><span id="kxsrc">● -- | --</span><span class="kx-paper">PAPER</span><span class="kx-mut">nothing trades until you approve</span></div>
 </div></section>
@@ -327,4 +327,10 @@ C.addEventListener("click",ev=>tip(ev,1));C.addEventListener("mousemove",ev=>tip
 PG.addEventListener("scroll",()=>{if(pagerIdx()==2&&!K)kload()},{passive:true});kload();setInterval(()=>{if(!document.hidden&&pagerIdx()==2)kload()},120000);
 })();
 </script>
-</body></html>
+<script>/* STRATEGY LAB panel: read-only summary from strategy_lab.json (paper research, nothing wired to desks) */
+async function slload(){try{const r=await gget("strategy_lab.json"),D=await r.json(),w=document.getElementById("slabw"),b=document.getElementById("slab");if(!D||!D.date)return;b.textContent="";
+const ln=(t,c)=>{const e=document.createElement("div");e.textContent=t;if(c)e.style.color=c;b.appendChild(e)};
+ln(`${D.date}: ${D.tested} tested · ${(D.survivors||[]).length} survived · graveyard ${D.graveyard_total}`,"#758D94");
+(D.survivors||[]).slice(0,3).forEach(s=>ln(`${s.id} ${s.total}/25 · OOS Sharpe ${s.oos_sharpe} · ${s.oos_trades} trades · DD ${s.oos_max_dd_pct}%`,"#00FFD0"));
+if(!(D.survivors||[]).length)ln("no survivors");if(D.top_kill)ln(`top kill: ${D.top_kill.id} — ${D.top_kill.why}`,"#FF5577");w.style.display="block"}catch(x){}}
+slload();setInterval(slload,600000);</script></body></html>
