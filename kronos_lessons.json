@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-02T17:59:58+00:00",
+ "generated_utc": "2026-11-02T18:36:04+00:00",
  "advisory_only": true,
  "stats": {
   "XRP": {
@@ -14,19 +14,24 @@
     "rate_pct": null
    },
    "forecasts": {
-    "n": 1,
+    "n": 2,
     "hits": 0,
     "rate_pct": 0.0
    },
    "forecast_by_regime": {
     "CHOPPY": {
-     "n": 1,
+     "n": 2,
      "hits": 0,
      "rate_pct": 0.0
     }
    },
    "forecast_by_agreeing": {
     "<60": {
+     "n": 1,
+     "hits": 0,
+     "rate_pct": 0.0
+    },
+    "60-70": {
      "n": 1,
      "hits": 0,
      "rate_pct": 0.0
@@ -46,22 +51,22 @@
     "rate_pct": null
    },
    "forecasts": {
-    "n": 1,
+    "n": 2,
     "hits": 1,
-    "rate_pct": 100.0
+    "rate_pct": 50.0
    },
    "forecast_by_regime": {
     "TRENDING": {
-     "n": 1,
+     "n": 2,
      "hits": 1,
-     "rate_pct": 100.0
+     "rate_pct": 50.0
     }
    },
    "forecast_by_agreeing": {
     "70-80": {
-     "n": 1,
+     "n": 2,
      "hits": 1,
-     "rate_pct": 100.0
+     "rate_pct": 50.0
     }
    },
    "trade_by_agreeing": {}
