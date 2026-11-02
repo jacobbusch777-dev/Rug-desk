@@ -104,11 +104,11 @@ html,body{height:100%;overflow:hidden}
 </div></div></section>
 <section class="pane" id="p3"><div class="kx">
 <div class="kx-top"><span class="kx-brand">KRONOS<span>//</span>FORECAST</span><span id="kxlive" title="live Binance feed (XRP/ETH only)" style="display:none;font-size:10px;margin-left:8px;color:#758D94"><i id="kxld" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#758D94;margin-right:4px"></i>LIVE</span><span class="kx-tabs" id="kxtabs"><button data-s="SPY" class="on">SPY</button><button data-s="QQQ">QQQ</button><button data-s="XRP">XRP</button><button data-s="ETH">ETH</button></span></div><div id="kxpos" style="display:none;margin:6px 8px;padding:8px 10px;border:2px solid #00FFD0;background:#0A1015;font-size:12px;color:#CFE"></div>
-<div class="kx-chart"><canvas id="kxc"></canvas><div class="kx-dir" id="kxdir"></div></div>
+<div class="kx-chart" style="position:relative"><canvas id="kxc"></canvas><div id="kxtip" style="display:none;position:absolute;left:8px;right:84px;bottom:6px;z-index:5;background:rgba(7,10,14,.96);border:1px solid #00FFD0;padding:8px 10px;font-size:11px;line-height:1.45;color:#CFE;max-height:46%;overflow:auto"></div><div class="kx-dir" id="kxdir"></div></div>
 <div class="kx-panels">
 <div class="kx-p"><div class="kx-h">PRICE</div><div class="kx-px" id="kxpx">--</div><div class="kx-ud"><span class="u" id="kxup">--</span><span class="d" id="kxdn">--</span></div><div class="kx-split"><div id="kxsplit"></div></div><div class="kx-lv" id="kxlv"></div><div class="kx-reg" id="kxreg">--</div></div>
 <div class="kx-p"><div class="kx-h">STATS</div><div class="kx-g" id="kxstats"></div></div>
-<div class="kx-p kx-logp"><div class="kx-h">&gt; Kronos lab</div><div class="kx-log" id="kxlog"></div></div>
+<div class="kx-p kx-logp"><div id="kxlesw" style="display:none"><div class="kx-h">LESSONS <span style="color:#758D94;font-weight:400">(advisory)</span></div><div id="kxles" style="font-size:11px;line-height:1.45;margin-bottom:8px"></div></div><div class="kx-h">&gt; Kronos lab</div><div class="kx-log" id="kxlog"></div></div>
 </div>
 <div class="kx-foot"><span id="kxsrc">● -- | --</span><span class="kx-paper">PAPER</span><span class="kx-mut">nothing trades until you approve</span></div>
 </div></section>
@@ -251,6 +251,8 @@ function krender(){const t=T();if(!t){$k("kxdir").textContent="no Kronos data fo
   if(ls.recent&&ls.recent.length)s+=`<div style="grid-column:1/-1">${ls.recent.map(r=>`<span class="${r.hit?"hit":"miss"}">${r.hit?"HIT":"MISS"}</span> ${e(String(r.utc).slice(5,16).replace("T"," "))} ${r.dir} ${pc(r.actual_ret_pct)}`).join("<br>")}</div>`;
   else s+=`<div style="grid-column:1/-1">no live forecasts graded yet</div>`}
  $k("kxstats").innerHTML=s;
+ {const w=$k("kxlesw"),Ls=K.lessons;if(!isC||!Ls)w.style.display="none";else{w.style.display="block";const st=(Ls.stats||{})[sym]||{},fc=st.forecasts||{},rec=(Ls.recent||[]).filter(l=>l.symbol==sym).slice(-3),cz=(Ls.cautions||[]).filter(c=>c.startsWith(sym));
+  $k("kxles").innerHTML=`<div>trades <b>${st.trades||0}</b> · win <b>${st.win_rate_pct==null?"--":st.win_rate_pct+"%"}</b> · live hit <b>${fc.n?fc.hits+"/"+fc.n+" ("+fc.rate_pct+"%)":"--"}</b></div>`+cz.map(c=>`<div style="color:${GOLD}">⚠ ${e(c)}</div>`).join("")+(rec.length?rec.map(l=>`<div>• ${e(l.text)}</div>`).join(""):`<div style="color:${MUT}">no lessons yet — fills in as trades close and forecasts grade</div>`)}}
  let L=K.log.map(l=>`<div><i>kronos:</i> ${e(new Date(l.utc).toLocaleString([], {month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}))} ${e(l.text)}</div>`);
  if(sym==CR&&K[cr+"_recent_hits"])L=K[cr+"_recent_hits"].map(h=>`<div><i>kronos:</i> bt ${e(h.utc.slice(0,10))} ${h.dir} → <span class="${h.hit?"hit":"miss"}">${h.hit?"HIT":"MISS"}</span></div>`).concat(L);
  const lg=$k("kxlog");lg.innerHTML=L.join("");lg.scrollTop=lg.scrollHeight;
@@ -282,13 +284,21 @@ function draw(now){const t=T(),W=C.clientWidth,H=C.clientHeight,dp=devicePixelRa
  let cs=t.candles;const P=t.paths||[],n0=cs.length;let nowP=t.last_close;
  if(LS[sym]&&LVk[sym]&&wsSym==sym){const m={};cs.forEach(k=>m[k[0]]=k);Object.values(LVk[sym]).forEach(k=>{if(k[0]>=cs[0][0])m[k[0]]=k});cs=Object.keys(m).sort().map(k=>m[k]);nowP=cs[cs.length-1][4]}
  const n=n0,f=(P[0]||[]).length,padR=78,cw=(W-padR-6)/(n+f+1),px0=6+(n-.5)*cw;
- let lo=Infinity,hi=-Infinity;cs.forEach(k=>{lo=Math.min(lo,k[3]);hi=Math.max(hi,k[2])});lo=Math.min(lo,nowP);hi=Math.max(hi,nowP);P.forEach(p=>p.forEach(v=>{lo=Math.min(lo,v);hi=Math.max(hi,v)}));const m=(hi-lo)*.06;lo-=m;hi+=m;
+ let lo=Infinity,hi=-Infinity;cs.forEach(k=>{lo=Math.min(lo,k[3]);hi=Math.max(hi,k[2])});lo=Math.min(lo,nowP);hi=Math.max(hi,nowP);
+ const t0=Date.parse(cs[0][0].replace(" ","T")+":00Z"),TR=(LS[sym]&&K[sym.toLowerCase()+"_trades"])||[],tX=ms=>6+(ms-t0)/36e5*cw;
+ TR.forEach(r=>{if(Date.parse(r.entry_utc)>=t0){lo=Math.min(lo,r.entry_px,r.exit_px??r.entry_px);hi=Math.max(hi,r.entry_px,r.exit_px??r.entry_px)}});P.forEach(p=>p.forEach(v=>{lo=Math.min(lo,v);hi=Math.max(hi,v)}));const m=(hi-lo)*.06;lo-=m;hi+=m;
  const y=v=>18+(H-34)*(1-(v-lo)/(hi-lo)),xi=i=>6+(i+.5)*cw;
  X.strokeStyle="#132226";X.lineWidth=1;X.fillStyle=MUT;X.font="9px 'JetBrains Mono',monospace";X.textAlign="left";
  for(let i=0;i<=6;i++){const v=lo+(hi-lo)*i/6,yy=y(v);X.beginPath();X.moveTo(0,yy);X.lineTo(W-padR,yy);X.stroke();if(Math.abs(yy-y(nowP))>12)X.fillText(fp(v),W-padR+4,yy+3)}
  for(let i=0;i<n+f;i+=6){X.beginPath();X.moveTo(xi(i),0);X.lineTo(xi(i),H);X.stroke()}
  cs.forEach((k,i)=>{const u=k[4]>=k[1],col=u?TEAL:RED;X.strokeStyle=col;X.fillStyle=col;X.beginPath();X.moveTo(xi(i),y(k[2]));X.lineTo(xi(i),y(k[3]));X.stroke();
   const a=y(Math.max(k[1],k[4])),b=Math.max(1,Math.abs(y(k[1])-y(k[4])));X.fillRect(xi(i)-cw*.33,a,cw*.66,b)});
+ MK.length=0;TR.forEach((r,k)=>{const ems=Date.parse(r.entry_utc);if(!(ems>=t0))return;const xe=Math.min(W-padR-8,tX(ems)),ye=y(r.entry_px),cl=r.status=="closed",
+   xx=Math.min(W-padR-8,cl?tX(Date.parse(r.exit_utc)):xi(cs.length-1)),yx=cl?y(r.exit_px):y(nowP),win=cl?r.pnl_usd>0:nowP>=r.entry_px,xc=win?TEAL:RED,off=(k%2)*11;
+  X.strokeStyle="rgba(200,255,240,.55)";X.setLineDash([2,3]);X.beginPath();X.moveTo(xe,ye);X.lineTo(xx,ye);X.stroke();X.setLineDash([]);
+  X.fillStyle=TEAL;X.strokeStyle="#fff";X.lineWidth=1;X.beginPath();X.moveTo(xe,ye-2);X.lineTo(xe-6,ye+8);X.lineTo(xe+6,ye+8);X.closePath();X.fill();X.stroke();
+  X.font="bold 8px 'JetBrains Mono',monospace";X.textAlign="center";X.fillStyle=TEAL;X.fillText("ENTRY",xe,ye+18+off);MK.push({x:xe,y:ye+4,r,k:"entry"});
+  if(cl){X.fillStyle=xc;X.beginPath();X.rect(xx-5,yx-5,10,10);X.fill();X.stroke();X.fillStyle=xc;X.fillText("EXIT "+(r.pnl_usd>=0?"+":"−")+"$"+Math.abs(r.pnl_usd).toFixed(2),Math.max(30,Math.min(W-padR-30,xx)),yx-9-off);MK.push({x:xx,y:yx,r,k:"exit"})}});
  const c=t.last_close,ph=now/1000;
  P.forEach((p,j)=>{const end=p[f-1],r=end/c-1,col=Math.abs(r)<.002?"255,184,77":r>0?"0,255,208":"255,42,85";
   for(let i=0;i<f;i++){const a0=i?p[i-1]:c,w=Math.sin(ph*1.3+j*1.7+i*.5)*(hi-lo)*.004*(i/f);X.strokeStyle=`rgba(${col},${(.38*(1-i/f*.85)).toFixed(3)})`;X.lineWidth=1;
@@ -300,6 +310,12 @@ function draw(now){const t=T(),W=C.clientWidth,H=C.clientHeight,dp=devicePixelRa
  const ty=Math.max(9,Math.min(H-9,y(nowP))),tx=W-padR+5;X.fillStyle=TEAL;X.beginPath();X.moveTo(W-padR,ty);X.lineTo(tx,ty-8);X.lineTo(W-2,ty-8);X.lineTo(W-2,ty+8);X.lineTo(tx,ty+8);X.closePath();X.fill();
  X.fillStyle="#04070A";X.font="bold 9px 'JetBrains Mono',monospace";X.textAlign="left";X.fillText("NOW "+fp(nowP),tx+2,ty+3);requestAnimationFrame(draw)}
 requestAnimationFrame(draw);
+const MK=[];function tip(ev,click){const b=C.getBoundingClientRect(),mx=ev.clientX-b.left,my=ev.clientY-b.top;let best=null,bd=18;MK.forEach(m=>{const d=Math.hypot(m.x-mx,m.y-my);if(d<bd){bd=d;best=m}});const el=$k("kxtip");
+ if(!best){if(click)el.style.display="none";return}const r=best.r;el.style.display="block";
+ el.innerHTML=`<b style="color:${TEAL}">${e(r.symbol)} PAPER LONG</b> ${r.status=="closed"?`<b style="color:${r.pnl_usd>=0?TEAL:RED}">${r.pnl_usd>=0?"+":"−"}$${Math.abs(r.pnl_usd).toFixed(2)} · ${r.hit?"HIT":"MISS"}</b>`:"<b>OPEN</b>"} <span style="float:right;color:${MUT}">tap to close</span><br>
+ entry ${e(new Date(r.entry_utc).toLocaleString([],{month:"numeric",day:"numeric",hour:"numeric",minute:"2-digit"}))} @ <b>${fp(r.entry_px)}</b>${r.status=="closed"?` → exit ${e(new Date(r.exit_utc).toLocaleString([],{month:"numeric",day:"numeric",hour:"numeric",minute:"2-digit"}))} @ <b>${fp(r.exit_px)}</b>`:""} · size $${(+r.size_usd).toFixed(2)}<br>
+ <b>Why entered:</b> ${e(r.reason_entry)}${r.reason_exit?`<br><b>Why exited:</b> ${e(r.reason_exit)}<br><b>Outcome:</b> ${e(r.outcome)}`:""}`}
+C.addEventListener("click",ev=>tip(ev,1));C.addEventListener("mousemove",ev=>tip(ev,0));$k("kxtip").addEventListener("click",()=>$k("kxtip").style.display="none");
 PG.addEventListener("scroll",()=>{if(pagerIdx()==2&&!K)kload()},{passive:true});kload();setInterval(()=>{if(!document.hidden&&pagerIdx()==2)kload()},120000);
 })();
 </script>
