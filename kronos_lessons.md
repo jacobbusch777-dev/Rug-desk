@@ -1,5 +1,5 @@
 # Kronos paper lessons (advisory only — rules and thresholds are fixed)
-_updated 2026-11-03T09:17:59+00:00_
+_updated 2026-11-03T09:33:12+00:00_
 
 ## Running stats
 - **XRP**: 0 trades, win rate --%, avg P&L --, total 0; trade direction hit --%; live forecasts 10/17 hit
