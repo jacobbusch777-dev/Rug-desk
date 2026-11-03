@@ -108,7 +108,7 @@ html,body{height:100%;overflow:hidden}
 <div class="kx-panels">
 <div class="kx-p"><div class="kx-h">PRICE</div><div class="kx-px" id="kxpx">--</div><div class="kx-ud"><span class="u" id="kxup">--</span><span class="d" id="kxdn">--</span></div><div class="kx-split"><div id="kxsplit"></div></div><div class="kx-lv" id="kxlv"></div><div class="kx-reg" id="kxreg">--</div></div>
 <div class="kx-p"><div class="kx-h">STATS</div><div class="kx-g" id="kxstats"></div></div>
-<div class="kx-p kx-logp"><div id="slabw" style="display:none;margin-bottom:8px"><div class="kx-h">STRATEGY LAB <span style="color:#758D94;font-weight:400">(read-only · recommendations only)</span></div><div id="slab" style="font-size:11px;line-height:1.45"></div></div><div id="kxlesw" style="display:none"><div class="kx-h">LESSONS <span style="color:#758D94;font-weight:400">(advisory)</span></div><div id="kxles" style="font-size:11px;line-height:1.45;margin-bottom:8px"></div></div><div class="kx-h">&gt; Kronos lab</div><div class="kx-log" id="kxlog"></div></div>
+<div class="kx-p kx-logp"><div id="qrsw" style="display:none;margin-bottom:8px"><div class="kx-h">QQQ RSI-2 (paper test) <span style="color:#758D94;font-weight:400">(paper only · no broker)</span></div><div id="qrs" style="font-size:11px;line-height:1.45"></div></div><div id="slabw" style="display:none;margin-bottom:8px"><div class="kx-h">STRATEGY LAB <span style="color:#758D94;font-weight:400">(read-only · recommendations only)</span></div><div id="slab" style="font-size:11px;line-height:1.45"></div></div><div id="kxlesw" style="display:none"><div class="kx-h">LESSONS <span style="color:#758D94;font-weight:400">(advisory)</span></div><div id="kxles" style="font-size:11px;line-height:1.45;margin-bottom:8px"></div></div><div class="kx-h">&gt; Kronos lab</div><div class="kx-log" id="kxlog"></div></div>
 </div>
 <div class="kx-foot"><span id="kxsrc">● -- | --</span><span class="kx-paper">PAPER</span><span class="kx-mut">nothing trades until you approve</span></div>
 </div></section>
@@ -333,4 +333,13 @@ const ln=(t,c)=>{const e=document.createElement("div");e.textContent=t;if(c)e.st
 ln(`${D.date}: ${D.tested} tested · ${(D.survivors||[]).length} survived · graveyard ${D.graveyard_total}`,"#758D94");
 (D.survivors||[]).slice(0,3).forEach(s=>ln(`${s.id} ${s.total}/25 · OOS Sharpe ${s.oos_sharpe} · ${s.oos_trades} trades · DD ${s.oos_max_dd_pct}%`,"#00FFD0"));
 if(!(D.survivors||[]).length)ln("no survivors");if(D.top_kill)ln(`top kill: ${D.top_kill.id} — ${D.top_kill.why}`,"#FF5577");w.style.display="block"}catch(x){}}
-slload();setInterval(slload,600000);</script></body></html>
+slload();setInterval(slload,600000);</script><script>/* QQQ RSI-2 paper test panel: read-only from qqq_rsi2_paper.json */
+async function qrload(){try{const r=await gget("qqq_rsi2_paper.json"),D=await r.json(),w=document.getElementById("qrsw"),b=document.getElementById("qrs");if(!D||!D.live)return;b.textContent="";
+const ln=(t,c)=>{const e=document.createElement("div");e.textContent=t;if(c)e.style.color=c;b.appendChild(e)},L=D.live,B=D.backtest,S=D.signal,P=D.position;
+ln(`equity $${L.equity.toFixed(2)} (${L.return_pct>=0?"+":""}${L.return_pct}%) · start $${D.start_equity} on ${D.start_date} · max DD ${L.max_dd_pct}%`,"#00FFD0");
+ln(P?`OPEN: long from ${P.entry_date} @ ${P.entry_close} · ${P.shares_equiv} sh · ${P.unrealized_pct}% · ${P.bars_left} bars left`:"OPEN: flat");
+ln(`last signal ${S.date}: close ${S.close} · RSI(2) ${S.rsi2} vs <${S.threshold} → ${S.action}`,"#758D94");
+ln(`live vs backtest: trades ${L.closed_trades} · avg ${L.avg_bps_per_trade??"–"} bps (bt ${B.oos_edge_bps_per_trade}) · win ${L.win_rate_pct??"–"}% · Sharpe ${L.sharpe_ann??"–"} (bt OOS ${B.oos_sharpe}) · DD ${L.max_dd_pct}% (bt ${B.oos_max_dd_pct}%)`,"#758D94");
+(D.trades||[]).slice(-8).reverse().forEach(t=>ln(`${t.entry_date}→${t.exit_date} ${t.entry_close}→${t.exit_close} ${t.net_bps} bps $${t.pnl_usd}`,+t.net_bps>=0?"#00FFD0":"#FF5577"));
+if(!(D.trades||[]).length)ln("trade log: none yet");ln(`updated ${D.updated}`,"#758D94");w.style.display="block"}catch(x){}}
+qrload();setInterval(qrload,600000);</script></body></html>
