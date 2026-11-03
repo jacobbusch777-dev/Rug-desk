@@ -1,8 +1,8 @@
 # Kronos paper lessons (advisory only — rules and thresholds are fixed)
-_updated 2026-11-03T18:37:10+00:00_
+_updated 2026-11-03T19:04:03+00:00_
 
 ## Running stats
-- **XRP**: 0 trades, win rate --%, avg P&L --, total 0; trade direction hit --%; live forecasts 14/26 hit
+- **XRP**: 1 trades, win rate 100.0%, avg P&L 3.0155, total 3.0155; trade direction hit 100.0%; live forecasts 14/26 hit
   - by regime: CHOPPY 9/20, TRENDING 5/6
   - by % agreeing: <60 4/9, 60-70 2/7, 70-80 4/6, 80-90 3/3, 90+ 1/1
   - by 1h candle patterns (advisory): no data 14/26
@@ -20,6 +20,7 @@ _updated 2026-11-03T18:37:10+00:00_
 - ⚠ ETH: 70-80 forecasts hit only 16.7% (n=6)
 
 ## Lessons
+- XRP trade 2026-11-02T18:35: predicted UP median +0.71% (TRENDING, 83% agreeing); actual +3.33% → HIT, P&L +3.02. Forecast direction was right and covered 0.30% round-trip costs.
 - XRP CHOPPY forecasts: 9/20 hit (45.0%) over live grading.
 - XRP TRENDING forecasts: 5/6 hit (83.3%) over live grading.
 - XRP forecasts with <60% agreeing: 4/9 hit (44.4%).

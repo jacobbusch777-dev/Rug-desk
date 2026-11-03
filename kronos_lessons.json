@@ -1,17 +1,17 @@
 {
- "generated_utc": "2026-11-03T18:37:10+00:00",
+ "generated_utc": "2026-11-03T19:04:03+00:00",
  "advisory_only": true,
  "stats": {
   "XRP": {
-   "trades": 0,
-   "wins": 0,
-   "win_rate_pct": null,
-   "avg_pnl_usd": null,
-   "total_pnl_usd": 0,
+   "trades": 1,
+   "wins": 1,
+   "win_rate_pct": 100.0,
+   "avg_pnl_usd": 3.0155,
+   "total_pnl_usd": 3.0155,
    "trade_hit": {
-    "n": 0,
-    "hits": 0,
-    "rate_pct": null
+    "n": 1,
+    "hits": 1,
+    "rate_pct": 100.0
    },
    "forecasts": {
     "n": 26,
@@ -71,7 +71,13 @@
      "rate_pct": 53.8
     }
    },
-   "trade_by_agreeing": {}
+   "trade_by_agreeing": {
+    "80-90": {
+     "n": 1,
+     "hits": 1,
+     "rate_pct": 100.0
+    }
+   }
   },
   "ETH": {
    "trades": 0,
@@ -141,6 +147,12 @@
   }
  },
  "lessons": [
+  {
+   "utc": "2026-11-03T18:59:25+00:00",
+   "symbol": "XRP",
+   "kind": "trade",
+   "text": "XRP trade 2026-11-02T18:35: predicted UP median +0.71% (TRENDING, 83% agreeing); actual +3.33% \u2192 HIT, P&L +3.02. Forecast direction was right and covered 0.30% round-trip costs."
+  },
   {
    "utc": "",
    "symbol": "XRP",
