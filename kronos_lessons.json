@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-03T03:32:53+00:00",
+ "generated_utc": "2026-11-03T04:08:51+00:00",
  "advisory_only": true,
  "stats": {
   "XRP": {
@@ -14,9 +14,9 @@
     "rate_pct": null
    },
    "forecasts": {
-    "n": 11,
-    "hits": 6,
-    "rate_pct": 54.5
+    "n": 12,
+    "hits": 7,
+    "rate_pct": 58.3
    },
    "forecast_by_regime": {
     "CHOPPY": {
@@ -25,8 +25,8 @@
      "rate_pct": 50.0
     },
     "TRENDING": {
-     "n": 1,
-     "hits": 1,
+     "n": 2,
+     "hits": 2,
      "rate_pct": 100.0
     }
    },
@@ -50,20 +50,25 @@
      "n": 1,
      "hits": 1,
      "rate_pct": 100.0
+    },
+    "90+": {
+     "n": 1,
+     "hits": 1,
+     "rate_pct": 100.0
     }
    },
    "forecast_by_pattern_1h": {
     "no data": {
-     "n": 11,
-     "hits": 6,
-     "rate_pct": 54.5
+     "n": 12,
+     "hits": 7,
+     "rate_pct": 58.3
     }
    },
    "forecast_by_pattern_htf": {
     "no data": {
-     "n": 11,
-     "hits": 6,
-     "rate_pct": 54.5
+     "n": 12,
+     "hits": 7,
+     "rate_pct": 58.3
     }
    },
    "trade_by_agreeing": {}
@@ -80,9 +85,9 @@
     "rate_pct": null
    },
    "forecasts": {
-    "n": 11,
-    "hits": 5,
-    "rate_pct": 45.5
+    "n": 12,
+    "hits": 6,
+    "rate_pct": 50.0
    },
    "forecast_by_regime": {
     "CHOPPY": {
@@ -91,9 +96,9 @@
      "rate_pct": 0.0
     },
     "TRENDING": {
-     "n": 10,
-     "hits": 5,
-     "rate_pct": 50.0
+     "n": 11,
+     "hits": 6,
+     "rate_pct": 54.5
     }
    },
    "forecast_by_agreeing": {
@@ -113,23 +118,23 @@
      "rate_pct": 33.3
     },
     "90+": {
-     "n": 3,
-     "hits": 3,
+     "n": 4,
+     "hits": 4,
      "rate_pct": 100.0
     }
    },
    "forecast_by_pattern_1h": {
     "no data": {
-     "n": 11,
-     "hits": 5,
-     "rate_pct": 45.5
+     "n": 12,
+     "hits": 6,
+     "rate_pct": 50.0
     }
    },
    "forecast_by_pattern_htf": {
     "no data": {
-     "n": 11,
-     "hits": 5,
-     "rate_pct": 45.5
+     "n": 12,
+     "hits": 6,
+     "rate_pct": 50.0
     }
    },
    "trade_by_agreeing": {}
@@ -164,7 +169,7 @@
    "utc": "",
    "symbol": "ETH",
    "kind": "forecast",
-   "text": "ETH TRENDING forecasts: 5/10 hit (50.0%) over live grading."
+   "text": "ETH TRENDING forecasts: 6/11 hit (54.5%) over live grading."
   },
   {
    "utc": "",
@@ -182,7 +187,7 @@
    "utc": "",
    "symbol": "ETH",
    "kind": "forecast",
-   "text": "ETH forecasts with 90+% agreeing: 3/3 hit (100.0%)."
+   "text": "ETH forecasts with 90+% agreeing: 4/4 hit (100.0%)."
   }
  ],
  "cautions": []
