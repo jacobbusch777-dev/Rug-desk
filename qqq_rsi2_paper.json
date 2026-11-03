@@ -1,23 +1,23 @@
 {
  "id": "QQQ_1d_rsi2",
  "paper_only": true,
- "updated": "2026-11-03 14:41 CT",
+ "updated": "2026-11-03 15:38 CT",
  "rules": "Long QQQ at the close when RSI(2) < 20; hold 5 daily bars (re-entry signal on the last bar extends); no trend filter, no SMA5 exit; 100% of paper equity; 5 bps per side; data Yahoo chart API daily",
  "start_date": "2026-11-02",
  "start_equity": 5000.0,
  "signal": {
-  "date": "2026-11-02",
-  "close": 681.09,
-  "rsi2": 0.0,
+  "date": "2026-11-03",
+  "close": 685.28,
+  "rsi2": 30.83,
   "threshold": 20,
-  "entry_signal": true,
-  "action": "FLAT \u2014 signal on tracking-start bar (pre-tracking, not filled)",
+  "entry_signal": false,
+  "action": "FLAT \u2014 no signal",
   "bars_left_after_today": 0,
   "lab_full_history_position": 1
  },
  "position": null,
  "live": {
-  "days": 1,
+  "days": 2,
   "equity": 5000.0,
   "return_pct": 0.0,
   "max_dd_pct": 0.0,
@@ -47,6 +47,10 @@
  "curve": [
   [
    "2026-11-02",
+   5000.0
+  ],
+  [
+   "2026-11-03",
    5000.0
   ]
  ],
