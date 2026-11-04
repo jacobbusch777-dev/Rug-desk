@@ -1,0 +1,58 @@
+{
+ "id": "SPY_1d_rsi2",
+ "paper_only": true,
+ "updated": "2026-11-04 08:42 CT",
+ "rules": "Long SPY at the close when RSI(2) < 20 AND close > SMA(200); hold 10 daily bars (re-entry signal on the last bar extends); no SMA5 exit; 100% of paper equity; 5 bps per side; data Yahoo chart API daily",
+ "start_date": "2026-11-03",
+ "start_equity": 5000.0,
+ "signal": {
+  "date": "2026-11-03",
+  "close": 754.35,
+  "rsi2": 38.33,
+  "threshold": 20,
+  "sma200": 729.47,
+  "trend_ok": true,
+  "entry_signal": false,
+  "action": "FLAT \u2014 no signal",
+  "bars_left_after_today": 0,
+  "lab_full_history_position": 1
+ },
+ "position": null,
+ "live": {
+  "days": 1,
+  "equity": 5000.0,
+  "return_pct": 0.0,
+  "max_dd_pct": 0.0,
+  "closed_trades": 0,
+  "avg_bps_per_trade": null,
+  "win_rate_pct": null,
+  "sharpe_ann": null
+ },
+ "backtest": {
+  "params": {
+   "lo": 20,
+   "h": 10
+  },
+  "rules_kept": [
+   "trend_filter"
+  ],
+  "is_sharpe": 0.241,
+  "oos_sharpe": 1.31,
+  "oos_return_pct": 49.74,
+  "oos_max_dd_pct": 9.5,
+  "oos_trades": 38,
+  "oos_edge_bps_per_trade": 108.02,
+  "bars_oos": 754,
+  "stress_oos_return_pct": 25.72,
+  "mc_dd95_pct": 17.29,
+  "total": 21,
+  "passes_bonferroni": false
+ },
+ "curve": [
+  [
+   "2026-11-03",
+   5000.0
+  ]
+ ],
+ "trades": []
+}
