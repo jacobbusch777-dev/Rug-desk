@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-05T14:49:50+00:00",
+ "generated_utc": "2026-11-05T15:02:13+00:00",
  "advisory_only": true,
  "stats": {
   "XRP": {
@@ -14,15 +14,15 @@
     "rate_pct": 100.0
    },
    "forecasts": {
-    "n": 70,
+    "n": 71,
     "hits": 20,
-    "rate_pct": 28.6
+    "rate_pct": 28.2
    },
    "forecast_by_regime": {
     "CHOPPY": {
-     "n": 33,
+     "n": 34,
      "hits": 12,
-     "rate_pct": 36.4
+     "rate_pct": 35.3
     },
     "TRENDING": {
      "n": 37,
@@ -37,9 +37,9 @@
      "rate_pct": 41.2
     },
     "60-70": {
-     "n": 10,
+     "n": 11,
      "hits": 2,
-     "rate_pct": 20.0
+     "rate_pct": 18.2
     },
     "70-80": {
      "n": 12,
@@ -99,9 +99,9 @@
      "rate_pct": 53.6
     },
     "none": {
-     "n": 28,
+     "n": 29,
      "hits": 5,
-     "rate_pct": 17.9
+     "rate_pct": 17.2
     },
     "shooting_star": {
      "n": 1,
@@ -119,9 +119,9 @@
      "rate_pct": 15.8
     },
     "trend:up": {
-     "n": 15,
+     "n": 16,
      "hits": 2,
-     "rate_pct": 13.3
+     "rate_pct": 12.5
     }
    },
    "forecast_by_pattern_htf": {
@@ -136,9 +136,9 @@
      "rate_pct": 53.6
     },
     "none": {
-     "n": 30,
+     "n": 31,
      "hits": 5,
-     "rate_pct": 16.7
+     "rate_pct": 16.1
     },
     "trend:down": {
      "n": 6,
@@ -151,7 +151,7 @@
      "rate_pct": 26.7
     },
     "trend:up": {
-     "n": 21,
+     "n": 22,
      "hits": 0,
      "rate_pct": 0.0
     }
@@ -176,15 +176,15 @@
     "rate_pct": null
    },
    "forecasts": {
-    "n": 70,
+    "n": 71,
     "hits": 33,
-    "rate_pct": 47.1
+    "rate_pct": 46.5
    },
    "forecast_by_regime": {
     "CHOPPY": {
-     "n": 22,
+     "n": 23,
      "hits": 10,
-     "rate_pct": 45.5
+     "rate_pct": 43.5
     },
     "TRENDING": {
      "n": 48,
@@ -194,9 +194,9 @@
    },
    "forecast_by_agreeing": {
     "<60": {
-     "n": 5,
+     "n": 6,
      "hits": 2,
-     "rate_pct": 40.0
+     "rate_pct": 33.3
     },
     "60-70": {
      "n": 11,
@@ -261,9 +261,9 @@
      "rate_pct": 72.4
     },
     "none": {
-     "n": 25,
+     "n": 26,
      "hits": 6,
-     "rate_pct": 24.0
+     "rate_pct": 23.1
     },
     "shooting_star": {
      "n": 1,
@@ -281,9 +281,9 @@
      "rate_pct": 42.9
     },
     "trend:up": {
-     "n": 17,
+     "n": 18,
      "hits": 1,
-     "rate_pct": 5.9
+     "rate_pct": 5.6
     }
    },
    "forecast_by_pattern_htf": {
@@ -308,9 +308,9 @@
      "rate_pct": 72.4
     },
     "none": {
-     "n": 23,
+     "n": 24,
      "hits": 9,
-     "rate_pct": 39.1
+     "rate_pct": 37.5
     },
     "trend:down": {
      "n": 18,
@@ -323,9 +323,9 @@
      "rate_pct": 33.3
     },
     "trend:up": {
-     "n": 5,
+     "n": 6,
      "hits": 3,
-     "rate_pct": 60.0
+     "rate_pct": 50.0
     }
    },
    "trade_by_agreeing": {}
@@ -342,7 +342,7 @@
    "utc": "",
    "symbol": "XRP",
    "kind": "forecast",
-   "text": "XRP CHOPPY forecasts: 12/33 hit (36.4%) over live grading."
+   "text": "XRP CHOPPY forecasts: 12/34 hit (35.3%) over live grading."
   },
   {
    "utc": "",
@@ -360,7 +360,7 @@
    "utc": "",
    "symbol": "XRP",
    "kind": "forecast",
-   "text": "XRP forecasts with 60-70% agreeing: 2/10 hit (20.0%)."
+   "text": "XRP forecasts with 60-70% agreeing: 2/11 hit (18.2%)."
   },
   {
    "utc": "",
@@ -384,7 +384,7 @@
    "utc": "",
    "symbol": "ETH",
    "kind": "forecast",
-   "text": "ETH CHOPPY forecasts: 10/22 hit (45.5%) over live grading."
+   "text": "ETH CHOPPY forecasts: 10/23 hit (43.5%) over live grading."
   },
   {
    "utc": "",
@@ -396,7 +396,7 @@
    "utc": "",
    "symbol": "ETH",
    "kind": "forecast",
-   "text": "ETH forecasts with <60% agreeing: 2/5 hit (40.0%)."
+   "text": "ETH forecasts with <60% agreeing: 2/6 hit (33.3%)."
   },
   {
    "utc": "",
@@ -424,16 +424,16 @@
   }
  ],
  "cautions": [
-  "XRP: CHOPPY forecasts hit only 36.4% (n=33)",
+  "XRP: CHOPPY forecasts hit only 35.3% (n=34)",
   "XRP: TRENDING forecasts hit only 21.6% (n=37)",
   "XRP: <60 forecasts hit only 41.2% (n=17)",
-  "XRP: 60-70 forecasts hit only 20.0% (n=10)",
+  "XRP: 60-70 forecasts hit only 18.2% (n=11)",
   "XRP: 70-80 forecasts hit only 33.3% (n=12)",
   "XRP: 80-90 forecasts hit only 25.0% (n=16)",
   "XRP: 90+ forecasts hit only 20.0% (n=15)",
-  "ETH: CHOPPY forecasts hit only 45.5% (n=22)",
+  "ETH: CHOPPY forecasts hit only 43.5% (n=23)",
   "ETH: TRENDING forecasts hit only 47.9% (n=48)",
-  "ETH: <60 forecasts hit only 40.0% (n=5)",
+  "ETH: <60 forecasts hit only 33.3% (n=6)",
   "ETH: 70-80 forecasts hit only 35.3% (n=17)",
   "ETH: 80-90 forecasts hit only 33.3% (n=15)"
  ]
