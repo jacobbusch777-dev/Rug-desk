@@ -1,45 +1,45 @@
 # Kronos paper lessons (advisory only — rules and thresholds are fixed)
-_updated 2026-11-06T00:31:58+00:00_
+_updated 2026-11-06T01:06:54+00:00_
 
 ## Running stats
-- **XRP**: 2 trades, win rate 50.0%, avg P&L -1.4567, total -2.9134; trade direction hit 50.0%; live forecasts 21/80 hit
-  - by regime: CHOPPY 13/41, TRENDING 8/39
-  - by % agreeing: <60 7/17, 60-70 3/15, 70-80 4/14, 80-90 4/18, 90+ 3/16
-  - by 1h candle patterns (advisory): bearish_engulfing 0/1, bearish_harami 0/1, bullish_engulfing 0/5, bullish_harami 0/1, doji 0/7, hammer 0/1, hanging_man 0/2, morning_star 0/1, no data 15/28, none 6/35, shooting_star 0/1, trend:down 1/10, trend:flat 3/20, trend:up 2/22
-  - by 6h candle patterns (advisory): doji 0/12, no data 15/28, none 6/40, trend:down 1/6, trend:flat 4/15, trend:up 1/31
-- **ETH**: 0 trades, win rate --%, avg P&L --, total 0; trade direction hit --%; live forecasts 38/80 hit
-  - by regime: CHOPPY 13/30, TRENDING 25/50
-  - by % agreeing: <60 3/10, 60-70 8/13, 70-80 7/18, 80-90 5/15, 90+ 15/24
-  - by 1h candle patterns (advisory): bearish_engulfing 1/3, bearish_harami 1/2, bullish_engulfing 2/4, bullish_harami 1/1, doji 2/7, hammer 2/2, morning_star 0/1, no data 21/29, none 9/31, shooting_star 1/3, trend:down 5/10, trend:flat 8/16, trend:up 4/25
-  - by 6h candle patterns (advisory): bearish_harami 1/1, bullish_engulfing 0/6, doji 1/1, hammer 0/6, inverted_hammer 3/6, no data 21/29, none 13/32, trend:down 3/18, trend:flat 6/18, trend:up 8/15
+- **XRP**: 2 trades, win rate 50.0%, avg P&L -1.4567, total -2.9134; trade direction hit 50.0%; live forecasts 21/81 hit
+  - by regime: CHOPPY 13/42, TRENDING 8/39
+  - by % agreeing: <60 7/17, 60-70 3/15, 70-80 4/15, 80-90 4/18, 90+ 3/16
+  - by 1h candle patterns (advisory): bearish_engulfing 0/1, bearish_harami 0/1, bullish_engulfing 0/5, bullish_harami 0/1, doji 0/7, hammer 0/1, hanging_man 0/2, morning_star 0/1, no data 15/28, none 6/36, shooting_star 0/1, trend:down 1/10, trend:flat 3/21, trend:up 2/22
+  - by 6h candle patterns (advisory): doji 0/12, no data 15/28, none 6/41, trend:down 1/6, trend:flat 4/15, trend:up 1/32
+- **ETH**: 0 trades, win rate --%, avg P&L --, total 0; trade direction hit --%; live forecasts 39/81 hit
+  - by regime: CHOPPY 14/31, TRENDING 25/50
+  - by % agreeing: <60 3/10, 60-70 8/13, 70-80 7/18, 80-90 6/16, 90+ 15/24
+  - by 1h candle patterns (advisory): bearish_engulfing 1/3, bearish_harami 1/2, bullish_engulfing 2/4, bullish_harami 1/1, doji 2/7, hammer 2/2, morning_star 0/1, no data 21/29, none 10/32, shooting_star 1/3, trend:down 5/10, trend:flat 9/17, trend:up 4/25
+  - by 6h candle patterns (advisory): bearish_harami 2/2, bullish_engulfing 0/6, doji 2/2, hammer 0/6, inverted_hammer 3/6, no data 21/29, none 13/32, trend:down 3/18, trend:flat 6/18, trend:up 9/16
 
 ## Cautions
-- ⚠ XRP: CHOPPY forecasts hit only 31.7% (n=41)
+- ⚠ XRP: CHOPPY forecasts hit only 31.0% (n=42)
 - ⚠ XRP: TRENDING forecasts hit only 20.5% (n=39)
 - ⚠ XRP: <60 forecasts hit only 41.2% (n=17)
 - ⚠ XRP: 60-70 forecasts hit only 20.0% (n=15)
-- ⚠ XRP: 70-80 forecasts hit only 28.6% (n=14)
+- ⚠ XRP: 70-80 forecasts hit only 26.7% (n=15)
 - ⚠ XRP: 80-90 forecasts hit only 22.2% (n=18)
 - ⚠ XRP: 90+ forecasts hit only 18.8% (n=16)
-- ⚠ ETH: CHOPPY forecasts hit only 43.3% (n=30)
+- ⚠ ETH: CHOPPY forecasts hit only 45.2% (n=31)
 - ⚠ ETH: <60 forecasts hit only 30.0% (n=10)
 - ⚠ ETH: 70-80 forecasts hit only 38.9% (n=18)
-- ⚠ ETH: 80-90 forecasts hit only 33.3% (n=15)
+- ⚠ ETH: 80-90 forecasts hit only 37.5% (n=16)
 
 ## Lessons
 - XRP trade 2026-11-02T18:35: predicted UP median +0.71% (TRENDING, 83% agreeing); actual +3.33% → HIT, P&L +3.02. Forecast direction was right and covered 0.30% round-trip costs.
 - XRP trade 2026-11-04T16:33: predicted UP median +1.11% (TRENDING, 87% agreeing); actual -5.47% → MISS, P&L -5.93. TRENDING at 80-90% agreement did not hold over 24h.
-- XRP CHOPPY forecasts: 13/41 hit (31.7%) over live grading.
+- XRP CHOPPY forecasts: 13/42 hit (31.0%) over live grading.
 - XRP TRENDING forecasts: 8/39 hit (20.5%) over live grading.
 - XRP forecasts with <60% agreeing: 7/17 hit (41.2%).
 - XRP forecasts with 60-70% agreeing: 3/15 hit (20.0%).
-- XRP forecasts with 70-80% agreeing: 4/14 hit (28.6%).
+- XRP forecasts with 70-80% agreeing: 4/15 hit (26.7%).
 - XRP forecasts with 80-90% agreeing: 4/18 hit (22.2%).
 - XRP forecasts with 90+% agreeing: 3/16 hit (18.8%).
-- ETH CHOPPY forecasts: 13/30 hit (43.3%) over live grading.
+- ETH CHOPPY forecasts: 14/31 hit (45.2%) over live grading.
 - ETH TRENDING forecasts: 25/50 hit (50.0%) over live grading.
 - ETH forecasts with <60% agreeing: 3/10 hit (30.0%).
 - ETH forecasts with 60-70% agreeing: 8/13 hit (61.5%).
 - ETH forecasts with 70-80% agreeing: 7/18 hit (38.9%).
-- ETH forecasts with 80-90% agreeing: 5/15 hit (33.3%).
+- ETH forecasts with 80-90% agreeing: 6/16 hit (37.5%).
 - ETH forecasts with 90+% agreeing: 15/24 hit (62.5%).
