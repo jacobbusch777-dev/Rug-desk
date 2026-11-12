@@ -1,35 +1,29 @@
 {
  "id": "QQQ_1d_rsi2",
  "paper_only": true,
- "updated": "2026-11-11 15:46 CT",
+ "updated": "2026-11-12 15:44 CT",
  "rules": "Long QQQ at the close when RSI(2) < 20; hold 5 daily bars (re-entry signal on the last bar extends); no trend filter, no SMA5 exit; 100% of paper equity; 5 bps per side; data Yahoo chart API daily",
  "start_date": "2026-11-02",
  "start_equity": 5000.0,
  "signal": {
-  "date": "2026-11-11",
-  "close": 690.38,
-  "rsi2": 77.29,
+  "date": "2026-11-12",
+  "close": 688.17,
+  "rsi2": 87.61,
   "threshold": 20,
   "entry_signal": false,
-  "action": "HOLD",
+  "action": "EXIT at close",
   "bars_left_after_today": 0,
-  "lab_full_history_position": 1
+  "lab_full_history_position": 0
  },
- "position": {
-  "entry_date": "2026-11-05",
-  "entry_close": 647.05,
-  "shares_equiv": 7.7235,
-  "unrealized_pct": 6.64,
-  "bars_left": 0
- },
+ "position": null,
  "live": {
-  "days": 8,
-  "equity": 5332.16,
-  "return_pct": 6.64,
+  "days": 9,
+  "equity": 5312.43,
+  "return_pct": 6.25,
   "max_dd_pct": 0.68,
-  "closed_trades": 0,
-  "avg_bps_per_trade": null,
-  "win_rate_pct": null,
+  "closed_trades": 1,
+  "avg_bps_per_trade": 624.87,
+  "win_rate_pct": 100.0,
   "sharpe_ann": null
  },
  "backtest": {
@@ -82,7 +76,21 @@
   [
    "2026-11-11",
    5332.16
+  ],
+  [
+   "2026-11-12",
+   5312.43
   ]
  ],
- "trades": []
+ "trades": [
+  {
+   "entry_date": "2026-11-05",
+   "entry_close": "647.05",
+   "exit_date": "2026-11-12",
+   "exit_close": "688.17",
+   "net_bps": "624.87",
+   "pnl_usd": "312.43",
+   "equity_after": "5312.43"
+  }
+ ]
 }
