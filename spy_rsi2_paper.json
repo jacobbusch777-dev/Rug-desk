@@ -1,33 +1,33 @@
 {
  "id": "SPY_1d_rsi2",
  "paper_only": true,
- "updated": "2026-11-11 15:55 CT",
+ "updated": "2026-11-12 15:59 CT",
  "rules": "Long SPY at the close when RSI(2) < 20 AND close > SMA(200); hold 10 daily bars (re-entry signal on the last bar extends); no SMA5 exit; 100% of paper equity; 5 bps per side; data Yahoo chart API daily",
  "start_date": "2026-11-03",
  "start_equity": 5000.0,
  "signal": {
-  "date": "2026-11-11",
-  "close": 759.81,
-  "rsi2": 78.12,
+  "date": "2026-11-12",
+  "close": 757.12,
+  "rsi2": 78.62,
   "threshold": 20,
-  "sma200": 731.31,
+  "sma200": 731.62,
   "trend_ok": true,
   "entry_signal": false,
   "action": "HOLD",
-  "bars_left_after_today": 6,
+  "bars_left_after_today": 5,
   "lab_full_history_position": 1
  },
  "position": {
   "entry_date": "2026-11-06",
   "entry_close": 735.29,
   "shares_equiv": 6.7966,
-  "unrealized_pct": 3.28,
-  "bars_left": 6
+  "unrealized_pct": 2.92,
+  "bars_left": 5
  },
  "live": {
-  "days": 7,
-  "equity": 5164.15,
-  "return_pct": 3.28,
+  "days": 8,
+  "equity": 5145.87,
+  "return_pct": 2.92,
   "max_dd_pct": 0.37,
   "closed_trades": 0,
   "avg_bps_per_trade": null,
@@ -82,6 +82,10 @@
   [
    "2026-11-11",
    5164.15
+  ],
+  [
+   "2026-11-12",
+   5145.87
   ]
  ],
  "trades": []
